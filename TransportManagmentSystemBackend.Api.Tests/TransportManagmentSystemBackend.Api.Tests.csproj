@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+	  <IsPackable>false</IsPackable>
+	  <AssemblyName>TransportManagmentSystemBackend.Api.Tests</AssemblyName>
+	  <RootNamespace>TransportManagmentSystemBackend.Api.Tests</RootNamespace>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="Middlewares\**" />
+		<Compile Remove="Settings\**" />
+		<EmbeddedResource Remove="Middlewares\**" />
+		<EmbeddedResource Remove="Settings\**" />
+		<None Remove="Middlewares\**" />
+		<None Remove="Settings\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AutoFixture" Version="4.17.0" />
+		<PackageReference Include="AutoFixture.AutoMoq" Version="4.17.0" />
+		<PackageReference Include="AutoFixture.Xunit2" Version="4.17.0" />
+		<PackageReference Include="coverlet.msbuild" Version="3.1.0">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="FluentAssertions" Version="6.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.1" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+		<PackageReference Include="Moq" Version="4.16.1" />
+		<PackageReference Include="NLog" Version="4.7.13" />
+		<PackageReference Include="NLog.Extensions.Logging" Version="1.7.4" />
+		<PackageReference Include="NLog.Web.AspNetCore" Version="4.14.0" />
+		<PackageReference Include="xunit" Version="2.4.1" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="V1\Controllers\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\TransportManagmentSystemBackend.Core\TransportManagmentSystemBackend.Core.csproj" />
+	  <ProjectReference Include="..\TransportManagmentSystemBackend.Infrastructure\TransportManagmentSystemBackend.Infrastructure.csproj" />
+	  <ProjectReference Include="..\TransportManagmentSystemBackend\TransportManagmentSystemBackend.Api.csproj" />
+	</ItemGroup>
+
+</Project>
