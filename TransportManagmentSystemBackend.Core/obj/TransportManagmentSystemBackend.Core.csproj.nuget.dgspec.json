@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\InternalProject\\TransportManagmentSystemBackend\\TransportManagmentSystemBackend.Core\\TransportManagmentSystemBackend.Core.csproj": {}
+    "D:\\Incedo\\repo\\TransportManagmentSystemBackend\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Core\\TransportManagmentSystemBackend.Core.csproj": {}
   },
   "projects": {
-    "D:\\InternalProject\\TransportManagmentSystemBackend\\TransportManagmentSystemBackend.Core\\TransportManagmentSystemBackend.Core.csproj": {
+    "D:\\Incedo\\repo\\TransportManagmentSystemBackend\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Core\\TransportManagmentSystemBackend.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\InternalProject\\TransportManagmentSystemBackend\\TransportManagmentSystemBackend.Core\\TransportManagmentSystemBackend.Core.csproj",
+        "projectUniqueName": "D:\\Incedo\\repo\\TransportManagmentSystemBackend\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Core\\TransportManagmentSystemBackend.Core.csproj",
         "projectName": "TransportManagmentSystemBackend.Core",
-        "projectPath": "D:\\InternalProject\\TransportManagmentSystemBackend\\TransportManagmentSystemBackend.Core\\TransportManagmentSystemBackend.Core.csproj",
+        "projectPath": "D:\\Incedo\\repo\\TransportManagmentSystemBackend\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Core\\TransportManagmentSystemBackend.Core.csproj",
         "packagesPath": "C:\\Users\\Ankit.Jha\\.nuget\\packages\\",
-        "outputPath": "D:\\InternalProject\\TransportManagmentSystemBackend\\TransportManagmentSystemBackend.Core\\obj\\",
+        "outputPath": "D:\\Incedo\\repo\\TransportManagmentSystemBackend\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
