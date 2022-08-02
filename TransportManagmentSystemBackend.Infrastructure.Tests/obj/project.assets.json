@@ -14395,11 +14395,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\InternalProject\\TransportManagmentSystemBackend\\TransportManagmentSystemBackend.Infrastructure.Tests\\TransportManagmentSystemBackend.Infrastructure.Tests.csproj",
+      "projectUniqueName": "D:\\Incedo\\repo\\TransportManagmentSystemBackend\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Infrastructure.Tests\\TransportManagmentSystemBackend.Infrastructure.Tests.csproj",
       "projectName": "TransportManagmentSystemBackend.Infrastructure.Tests",
-      "projectPath": "D:\\InternalProject\\TransportManagmentSystemBackend\\TransportManagmentSystemBackend.Infrastructure.Tests\\TransportManagmentSystemBackend.Infrastructure.Tests.csproj",
+      "projectPath": "D:\\Incedo\\repo\\TransportManagmentSystemBackend\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Infrastructure.Tests\\TransportManagmentSystemBackend.Infrastructure.Tests.csproj",
       "packagesPath": "C:\\Users\\Ankit.Jha\\.nuget\\packages\\",
-      "outputPath": "D:\\InternalProject\\TransportManagmentSystemBackend\\TransportManagmentSystemBackend.Infrastructure.Tests\\obj\\",
+      "outputPath": "D:\\Incedo\\repo\\TransportManagmentSystemBackend\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Infrastructure.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -14420,11 +14420,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\InternalProject\\TransportManagmentSystemBackend\\TransportManagmentSystemBackend.Infrastructure\\TransportManagmentSystemBackend.Infrastructure.csproj": {
-              "projectPath": "D:\\InternalProject\\TransportManagmentSystemBackend\\TransportManagmentSystemBackend.Infrastructure\\TransportManagmentSystemBackend.Infrastructure.csproj"
+            "D:\\Incedo\\repo\\TransportManagmentSystemBackend\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Infrastructure\\TransportManagmentSystemBackend.Infrastructure.csproj": {
+              "projectPath": "D:\\Incedo\\repo\\TransportManagmentSystemBackend\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Infrastructure\\TransportManagmentSystemBackend.Infrastructure.csproj"
             },
-            "D:\\InternalProject\\TransportManagmentSystemBackend\\TransportManagmentSystemBackend\\TransportManagmentSystemBackend.Api.csproj": {
-              "projectPath": "D:\\InternalProject\\TransportManagmentSystemBackend\\TransportManagmentSystemBackend\\TransportManagmentSystemBackend.Api.csproj"
+            "D:\\Incedo\\repo\\TransportManagmentSystemBackend\\Transport-Managment-System-backend\\TransportManagmentSystemBackend\\TransportManagmentSystemBackend.Api.csproj": {
+              "projectPath": "D:\\Incedo\\repo\\TransportManagmentSystemBackend\\Transport-Managment-System-backend\\TransportManagmentSystemBackend\\TransportManagmentSystemBackend.Api.csproj"
             }
           }
         }
