@@ -10,5 +10,7 @@ namespace TransportManagmentSystemBackend.Core.Interfaces.Repositories
     public interface IUserRepository
     {
         Task<UserResponse> InsertUser(UserRequest request);
+        Task<UserResponse> UpdateUser(UserRequest request);
+        Task<UserResponse> GetUser(UserRequest request);
     }
 }

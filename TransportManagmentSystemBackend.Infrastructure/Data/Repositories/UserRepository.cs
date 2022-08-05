@@ -39,5 +39,43 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 throw new Exception(ex.Message);
             }
         }
+        public Task<UserResponse> UpdateUser(UserRequest request)
+        {
+            try
+            {
+                return Task.FromResult(new UserResponse()
+                {
+                    Id = 1,
+                    FirstName = "FitTest",
+                    LastName = "Lasame",
+                    Email = "test@est.com",
+                    Phone = "4567890"
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception occurs in UpdateUser For User is {ex.Message}");
+                throw new Exception(ex.Message);
+            }
+        }
+        public Task<UserResponse> GetUser(UserRequest request)
+        {
+            try
+            {
+                return Task.FromResult(new UserResponse()
+                {
+                    Id = 1,
+                    FirstName = "FiTest",
+                    LastName = "Laame",
+                    Email = "tes@est.com",
+                    Phone = "945563450"
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception occurs in GetUser For User is {ex.Message}");
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
