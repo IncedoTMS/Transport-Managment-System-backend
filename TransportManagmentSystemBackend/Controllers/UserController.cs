@@ -15,7 +15,7 @@ namespace TransportManagmentSystemBackend.Api.Controllers
     public class UserController : ControllerBase
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly IUserService userService;
+        private readonly IUserService userService; 
 
         public UserController(IUserService userService)
         {
@@ -48,7 +48,27 @@ namespace TransportManagmentSystemBackend.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+        [HttpGet]
+        public async Task<ActionResult<UserResponse>> GetAsync()
+        {
+            Logger.Info($"UserController.GetAsync method called.");
+            //Logger.Info($"UserRequest Body is {Newtonsoft.Json.JsonConvert.SerializeObject(request)}");
+            try
+            {
+                //if (request == null)
+                //{
+                //    return this.BadRequest(nameof(request));
+                //}
 
+                var resp = await userService.GetUser();
+                return resp == null ? NotFound() : Ok(resp);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception ocuurs in UserController.PostAsync method ={ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
 
     }
 }

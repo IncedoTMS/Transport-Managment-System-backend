@@ -10,3 +10,15 @@ D:\InternalProject\TransportManagmentSystemBackend\TransportManagmentSystemBacke
 D:\InternalProject\TransportManagmentSystemBackend\TransportManagmentSystemBackend.Core\obj\Debug\net6.0\ref\TransportManagmentSystemBackend.Core.dll
 D:\InternalProject\TransportManagmentSystemBackend\TransportManagmentSystemBackend.Core\obj\Debug\net6.0\TransportManagmentSystemBackend.Core.pdb
 D:\InternalProject\TransportManagmentSystemBackend\TransportManagmentSystemBackend.Core\obj\Debug\net6.0\TransportManagmentSystemBackend.Core.csproj.AssemblyReference.cache
+C:\Transport-Managment-System-backend\TransportManagmentSystemBackend.Core\bin\Debug\net6.0\TransportManagmentSystemBackend.Core.deps.json
+C:\Transport-Managment-System-backend\TransportManagmentSystemBackend.Core\bin\Debug\net6.0\TransportManagmentSystemBackend.Core.dll
+C:\Transport-Managment-System-backend\TransportManagmentSystemBackend.Core\bin\Debug\net6.0\TransportManagmentSystemBackend.Core.pdb
+C:\Transport-Managment-System-backend\TransportManagmentSystemBackend.Core\obj\Debug\net6.0\TransportManagmentSystemBackend.Core.csproj.AssemblyReference.cache
+C:\Transport-Managment-System-backend\TransportManagmentSystemBackend.Core\obj\Debug\net6.0\TransportManagmentSystemBackend.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Transport-Managment-System-backend\TransportManagmentSystemBackend.Core\obj\Debug\net6.0\TransportManagmentSystemBackend.Core.AssemblyInfoInputs.cache
+C:\Transport-Managment-System-backend\TransportManagmentSystemBackend.Core\obj\Debug\net6.0\TransportManagmentSystemBackend.Core.AssemblyInfo.cs
+C:\Transport-Managment-System-backend\TransportManagmentSystemBackend.Core\obj\Debug\net6.0\TransportManagmentSystemBackend.Core.csproj.CoreCompileInputs.cache
+C:\Transport-Managment-System-backend\TransportManagmentSystemBackend.Core\obj\Debug\net6.0\TransportManagmentSystemBackend.Core.dll
+C:\Transport-Managment-System-backend\TransportManagmentSystemBackend.Core\obj\Debug\net6.0\refint\TransportManagmentSystemBackend.Core.dll
+C:\Transport-Managment-System-backend\TransportManagmentSystemBackend.Core\obj\Debug\net6.0\TransportManagmentSystemBackend.Core.pdb
+C:\Transport-Managment-System-backend\TransportManagmentSystemBackend.Core\obj\Debug\net6.0\ref\TransportManagmentSystemBackend.Core.dll

@@ -29,5 +29,17 @@ namespace TransportManagmentSystemBackend.Core.Services
                 return await _repo.InsertUser(request);
             }
         }
+        public async Task<UserResponse> GetUser()
+        {
+            //if (request == null)
+            //{
+            //    Logger.Error("UserService.AddUser is called and getting null exception for add user");
+            //    throw new ArgumentException(nameof(AddUser));
+            //}
+            //else
+            //{
+                return await _repo.GetUsers();
+            //}
+        }
     }
 }

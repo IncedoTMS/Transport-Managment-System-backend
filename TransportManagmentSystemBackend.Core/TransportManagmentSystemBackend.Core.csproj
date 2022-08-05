@@ -17,5 +17,9 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="NLog" Version="4.7.13" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Services\Entities\" />
+	</ItemGroup>
 	
 </Project>

@@ -29,13 +29,36 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     Id = 1,
                     FirstName = "FirstTest",
                     LastName = "LastName",
+                    EmpCode = 12345,
                     Email ="test@test.com",
+                    Password = "ABCD@1234",
                     Phone = "1234567890"
                 });
             }
             catch (Exception ex)
             {
                 Logger.Error($"Exception occurs in InsertUser For User is {ex.Message}");
+                throw new Exception(ex.Message);
+            }
+        }
+        public Task<UserResponse> GetUsers()
+        {
+            try
+            {
+                return Task.FromResult(new UserResponse()
+                {
+                    Id = 1,
+                    FirstName = "FirstTest",
+                    LastName = "LastName",
+                    EmpCode = 12345,
+                    Email = "test@test.com",
+                    Password = "ABCD@1234",
+                    Phone = "1234567890"
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception occurs in GetUsers For User is {ex.Message}");
                 throw new Exception(ex.Message);
             }
         }
