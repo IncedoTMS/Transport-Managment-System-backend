@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TransportManagmentSystemBackend.Infrastructure.Data.Entities
+namespace TransportManagementSystemBackend.Infrastructure.Data.Entities
 {
     public partial class User
     {
+        public User()
+        {
+            CabRequirementRequests = new HashSet<CabRequirementRequest>();
+        }
+
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -17,5 +22,6 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Entities
 
         public virtual Address Address { get; set; }
         public virtual Role Role { get; set; }
+        public virtual ICollection<CabRequirementRequest> CabRequirementRequests { get; set; }
     }
 }

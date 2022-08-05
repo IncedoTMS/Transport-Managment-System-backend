@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TransportManagmentSystemBackend.Infrastructure.Data.Entities
+namespace TransportManagementSystemBackend.Infrastructure.Data.Entities
 {
     public partial class Address
     {
