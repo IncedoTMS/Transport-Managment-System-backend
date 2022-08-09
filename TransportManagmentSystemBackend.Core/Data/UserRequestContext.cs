@@ -15,7 +15,8 @@ namespace TransportManagmentSystemBackend.Core.Data
         {
         }
 
-        public DbSet<TransportManagmentSystemBackend.Core.Domain.Models.UserRequest> UserRequest { get; set; }
+        public virtual DbSet<TransportManagmentSystemBackend.Core.Domain.Models.UserRequest> UserRequest { get; set; }
+       
     }
 }
 
