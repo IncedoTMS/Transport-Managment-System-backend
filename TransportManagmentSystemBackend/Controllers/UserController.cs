@@ -65,10 +65,51 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error($"Exception ocuurs in UserController.PostAsync method ={ex.Message}");
+                Logger.Error($"Exception ocuurs in UserController.GetAsync method ={ex.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
+        [HttpDelete("{EmpId}")]
+        public async Task<ActionResult<UserResponse>> DeleteAsync(int empid)
+        {
+            Logger.Info($"UserController.PostAsync method called.");
+            try
+            {
+                if (empid == null)
+                {
+                    return this.BadRequest(nameof(empid));
+                }
+
+                var resp = await userService.DelUser(empid);
+                return resp == null ? NotFound() : Ok(resp);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception ocuurs in UserController.DeleteAsync method ={ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<UserResponse>> PutAsync(int empid, UserRequest request)
+        {
+            Logger.Info($"UserController.PutAsync method called.");
+            try
+            {
+                if (empid == null || request == null)
+                {
+                    return this.BadRequest(nameof(empid));
+                }
+
+                var resp = await userService.EditUser(empid, request);
+                return resp == null ? NotFound() : Ok(resp);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception ocuurs in UserController.PutAsync method ={ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }

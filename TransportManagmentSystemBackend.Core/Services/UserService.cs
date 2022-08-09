@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using Microsoft.AspNetCore.Mvc;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace TransportManagmentSystemBackend.Core.Services
             this._repo = repo;
         }
 
-        public async Task<UserResponse> AddUser(UserRequest request)
+        public async Task<ActionResult<IEnumerable<UserRequest>>> AddUser(UserRequest request)
         {
             if (request == null)
             {
@@ -29,7 +30,7 @@ namespace TransportManagmentSystemBackend.Core.Services
                 return await _repo.InsertUser(request);
             }
         }
-        public async Task<UserResponse> GetUser()
+        public async Task<ActionResult<IEnumerable<UserRequest>>> GetUser()
         {
             //if (request == null)
             //{
@@ -40,6 +41,22 @@ namespace TransportManagmentSystemBackend.Core.Services
             //{
                 return await _repo.GetUsers();
             //}
+        }
+        public async Task<ActionResult<IEnumerable<UserRequest>>> DelUser(int empid)
+        {
+            return await _repo.DeleteUser(empid);
+        }
+        public async Task<ActionResult<IEnumerable<UserRequest>>> EditUser(int empid, UserRequest request)
+        {
+            if (request == null)
+            {
+                Logger.Error("UserService.EditUser is called and getting null exception for add user");
+                throw new ArgumentException(nameof(EditUser));
+            }
+            else
+            {
+                return await _repo.EditThisUser(empid, request);
+            }
         }
     }
 }

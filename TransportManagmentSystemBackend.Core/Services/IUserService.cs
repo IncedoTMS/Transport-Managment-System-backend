@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,9 @@ namespace TransportManagmentSystemBackend.Core.Services
 {
     public interface IUserService
     {
-        Task<UserResponse> AddUser(UserRequest request);
-        Task<UserResponse> GetUser();
+        Task<ActionResult<IEnumerable<UserRequest>>> AddUser(UserRequest request);
+        Task<ActionResult<IEnumerable<UserRequest>>> GetUser();
+        Task<ActionResult<IEnumerable<UserRequest>>> DelUser(int empid);
+        Task<ActionResult<IEnumerable<UserRequest>>> EditUser(int empid, UserRequest request);
     }
 }
