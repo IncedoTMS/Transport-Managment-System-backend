@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TransportManagementSystemBackend.Infrastructure.Data.Contexts;
 using TransportManagmentSystemBackend.Core.Domain.Models;
 using TransportManagmentSystemBackend.Core.Interfaces.Repositories;
 
@@ -14,24 +15,43 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
     {
         private readonly IMapper _mapper;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private readonly TMSContext appDbContext;
 
         public UserRepository(IMapper mapper)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public Task<UserResponse> InsertUser(UserRequest request)
+        public async Task<UserResponse> InsertUser(UserRequest request)
         {
             try
             {
-                return Task.FromResult(new UserResponse()
+                var response = new UserResponse();
+
+                appDbContext.Users.Add(new TransportManagementSystemBackend.Infrastructure.Data.Entities.User
                 {
-                    Id = 1,
-                    FirstName = "FirstTest",
-                    LastName = "LastName",
-                    Email ="test@test.com",
-                    Phone = "1234567890"
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    EmpCode = request.EmpCode,
+                    Email = request.Email,
+                    Password = request.Password,
+                    Phone = request.Phone,
+                    RoleId = request.RoleId,
+                    AddressId = request.AddressId,
                 });
+
+                int id = appDbContext.SaveChanges();
+
+                response.Id = id;
+                response.FirstName = request.FirstName;
+                response.LastName = request.LastName;
+                response.EmpCode = request.EmpCode;
+                response.Email = request.Email;
+                response.Password = request.Password;
+                response.Phone = request.Phone;
+                response.RoleId = request.RoleId;
+                response.AddressId = request.AddressId;
+                return response;
             }
             catch (Exception ex)
             {

@@ -5,11 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using TransportManagmentSystemBackend.Core.Domain.Models;
 
-
-namespace TransportManagmentSystemBackend.Core.Interfaces.Repositories
+namespace TransportManagmentSystemBackend.Core.Services
 {
-    public interface IUserRepository
+    public interface ICabRequirementRequestService
     {
-        Task<UserResponse> InsertUser(UserRequest request);
+        Task<CabRequirementRequestResponse> Add(CabRequirementRequest request);
     }
 }
