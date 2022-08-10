@@ -43,7 +43,8 @@ namespace TransportManagmentSystemBackend.Api
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
           
-            services.AddScoped<ICabRequirmentRequestRepository, CabRepository>();
+            services.AddScoped<ICabRequirementRequestService, CabRequirementRequestService>();
+            services.AddScoped<ICabRequirmentRequestRepository, CabRequirementRequestRepository>();
 
             services.AddSingleton(appSettings);
 

@@ -14,55 +14,42 @@ using TransportManagmentSystemBackend.Infrastructure.Data.Repositories;
 namespace TransportManagmentSystemBackend.Api.Controllers
 {
     [ApiController]
-    [Route("api/v{version:apiVersion}/cab")]
+    [Route("api/v{version:apiVersion}/cabrequirment")]
     public class CabRequirmentController : ControllerBase
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly ICabRequirmentRequestRepository cabRepository;
+        private readonly ICabRequirementRequestService cabRequirementRequestService;
 
-        public CabRequirmentController(ICabRequirmentRequestRepository cabRepository)
+        public CabRequirmentController(ICabRequirementRequestService cabRequirementRequestService)
         {
-            this.cabRepository = cabRepository;
+            this.cabRequirementRequestService = cabRequirementRequestService ?? throw new ArgumentNullException(nameof(cabRequirementRequestService));
         }
-        //[ProducesResponseType(typeof(CabRequirementRequest), StatusCodes.Status200OK)]
-        //[ProducesResponseType(typeof(CabRequirementRequest), StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(typeof(CabRequirementRequest), StatusCodes.Status401Unauthorized)]
-        //[ProducesResponseType(typeof(CabRequirementRequest), StatusCodes.Status404NotFound)]
-        //[ProducesResponseType(typeof(CabRequirementRequest), StatusCodes.Status500InternalServerError)]
 
-        //[HttpGet]
-        //public async Task<ActionResult> GetCab()
-        //{
-        //    try
-        //    {
-        //        return Ok(await cabRepository.GetCab());
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError,
-        //            "Error retrieving data from the database");
-        //    }
-        //}
-        //[HttpPost]
-        //public async Task<ActionResult<CabRequirementRequest>> AddCab(CabRequirementRequest requirmentRequest)
-        //{
-        //    try
-        //    {
-        //        if (requirmentRequest == null)
-        //            return BadRequest();
+        [ProducesResponseType(typeof(CabRequirementRequestResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(CabRequirementRequestResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(CabRequirementRequestResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(CabRequirementRequestResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(CabRequirementRequestResponse), StatusCodes.Status500InternalServerError)]
+        [HttpPost]
+        public async Task<ActionResult<CabRequirementRequestResponse>> PostAsync([FromBody] Core.Domain.Models.CabRequirementRequest requirmentRequest)
+        {
+            Logger.Info($"CabRequirmentController.PostAsync method called.");
+            Logger.Info($"CabRequirementRequest Body is {Newtonsoft.Json.JsonConvert.SerializeObject(requirmentRequest)}");
+            try
+            {
+                if (requirmentRequest == null)
+                    return BadRequest();
 
-        //        var createdCabRequirmentRequest = await cabRepository.Insert(requirmentRequest);
-        //        return createdCabRequirmentRequest == null? NotFound(): Ok(createdCabRequirmentRequest);
-        //        //return CreatedAtAction(nameof(GetCab),
-        //           // new { id = createdCabRequirmentRequest.Id }, createdCabRequirmentRequest);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError,
-        //            "Error creating new  record");
-        //    }
-        //}
-        
+                var createdCabRequirmentRequest = await cabRequirementRequestService.Add(requirmentRequest);
+                return createdCabRequirmentRequest == null ? NotFound() : Ok(createdCabRequirmentRequest);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception ocuurs in CabRequirmentController.PostAsync method ={ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
 
 
     }

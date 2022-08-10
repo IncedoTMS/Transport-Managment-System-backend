@@ -7,9 +7,8 @@ using TransportManagmentSystemBackend.Core.Domain.Models;
 
 namespace TransportManagmentSystemBackend.Core.Services
 {
-    public interface ICabService
+    public interface ICabRequirementRequestService
     {
-        Task<CabResponse> AddCab(CabRequest request);
-        Task<CabResponse>UpdateCab(CabRequest request);
+        Task<CabRequirementRequestResponse> Add(CabRequirementRequest request);
     }
 }

@@ -11,6 +11,6 @@ namespace TransportManagmentSystemBackend.Core.Interfaces.Repositories
     public interface ICabRequirmentRequestRepository
     {
 
-       // Task<CabRequirementRequest> InsertUser(CabRequirementRequest requirementRequest);
+        Task<CabRequirementRequestResponse> InsertCabRequirmentRequest(CabRequirementRequest requirementRequest);
     }
 }

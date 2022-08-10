@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TransportManagmentSystemBackend.Core.Domain.Models
 {
-    public class CabResponse : CabRequest
+    public class CabRequirementRequestResponse : CabRequirementRequest
     {
         public int Id { get; set; }
     }
