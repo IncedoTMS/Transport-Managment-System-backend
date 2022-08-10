@@ -40,8 +40,10 @@ namespace TransportManagmentSystemBackend.Api
 
             //// TransportManagmentSystem database
 
-            services.AddSingleton<IUserService, UserService>();
-            services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+          
+            services.AddScoped<ICabRequirmentRequestRepository, CabRepository>();
 
             services.AddSingleton(appSettings);
 

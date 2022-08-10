@@ -14622,23 +14622,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Ankit.Jha\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\hrikshant\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Incedo\\repo\\TransportManagmentSystemBackend\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Api.Tests\\TransportManagmentSystemBackend.Api.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\hrikshant\\Desktop\\tms\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Api.Tests\\TransportManagmentSystemBackend.Api.Tests.csproj",
       "projectName": "TransportManagmentSystemBackend.Api.Tests",
-      "projectPath": "D:\\Incedo\\repo\\TransportManagmentSystemBackend\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Api.Tests\\TransportManagmentSystemBackend.Api.Tests.csproj",
-      "packagesPath": "C:\\Users\\Ankit.Jha\\.nuget\\packages\\",
-      "outputPath": "D:\\Incedo\\repo\\TransportManagmentSystemBackend\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Api.Tests\\obj\\",
+      "projectPath": "C:\\Users\\hrikshant\\Desktop\\tms\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Api.Tests\\TransportManagmentSystemBackend.Api.Tests.csproj",
+      "packagesPath": "C:\\Users\\hrikshant\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\hrikshant\\Desktop\\tms\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Api.Tests\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Ankit.Jha\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\hrikshant\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -14646,21 +14642,20 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {},
-        "https://pkgs.dev.azure.com/AssetmarkInc/_packaging/AssetmarkInc/nuget/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\Incedo\\repo\\TransportManagmentSystemBackend\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Core\\TransportManagmentSystemBackend.Core.csproj": {
-              "projectPath": "D:\\Incedo\\repo\\TransportManagmentSystemBackend\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Core\\TransportManagmentSystemBackend.Core.csproj"
+            "C:\\Users\\hrikshant\\Desktop\\tms\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Core\\TransportManagmentSystemBackend.Core.csproj": {
+              "projectPath": "C:\\Users\\hrikshant\\Desktop\\tms\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Core\\TransportManagmentSystemBackend.Core.csproj"
             },
-            "D:\\Incedo\\repo\\TransportManagmentSystemBackend\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Infrastructure\\TransportManagmentSystemBackend.Infrastructure.csproj": {
-              "projectPath": "D:\\Incedo\\repo\\TransportManagmentSystemBackend\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Infrastructure\\TransportManagmentSystemBackend.Infrastructure.csproj"
+            "C:\\Users\\hrikshant\\Desktop\\tms\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Infrastructure\\TransportManagmentSystemBackend.Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\hrikshant\\Desktop\\tms\\Transport-Managment-System-backend\\TransportManagmentSystemBackend.Infrastructure\\TransportManagmentSystemBackend.Infrastructure.csproj"
             },
-            "D:\\Incedo\\repo\\TransportManagmentSystemBackend\\Transport-Managment-System-backend\\TransportManagmentSystemBackend\\TransportManagmentSystemBackend.Api.csproj": {
-              "projectPath": "D:\\Incedo\\repo\\TransportManagmentSystemBackend\\Transport-Managment-System-backend\\TransportManagmentSystemBackend\\TransportManagmentSystemBackend.Api.csproj"
+            "C:\\Users\\hrikshant\\Desktop\\tms\\Transport-Managment-System-backend\\TransportManagmentSystemBackend\\TransportManagmentSystemBackend.Api.csproj": {
+              "projectPath": "C:\\Users\\hrikshant\\Desktop\\tms\\Transport-Managment-System-backend\\TransportManagmentSystemBackend\\TransportManagmentSystemBackend.Api.csproj"
             }
           }
         }
@@ -14747,7 +14742,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.107\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }
