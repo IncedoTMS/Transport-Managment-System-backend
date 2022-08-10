@@ -1,0 +1,2 @@
+INSERT INTO [dbo].[CabRequirementSlot] (Id, [Time], SlotAvailableTime, CreatedBy) VALUES (1, '22:00', 4, 'CabRequirementUser');
+INSERT INTO [dbo].[CabRequirementSlot] (Id, [Time], SlotAvailableTime, CreatedBy) VALUES (2, '03:00', 4, 'CabRequirementUser');
