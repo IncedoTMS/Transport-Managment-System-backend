@@ -1,56 +1,90 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TransportManagmentSystemBackend.Core.Domain.Models;
+using TransportManagementSystemBackend.Infrastructure.Data.Contexts;
+using TransportManagementSystemBackend.Infrastructure.Data.Entities;
 using TransportManagmentSystemBackend.Core.Interfaces.Repositories;
 
 namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
 {
-    public class CabRepository : ICabRepository
+    public class CabRepository : ICabRequirmentRequestRepository
     {
         private readonly IMapper _mapper;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public CabRepository(IMapper mapper)
+        private readonly TMSContext appDbContext;
+        public CabRepository(TMSContext appDbContext, IMapper mapper)
         {
+            this.appDbContext = appDbContext;
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public Task<CabResponse> InsertCab(CabRequest request)
+
+        //public async Task<CabRequirementRequest> UpdateCab(CabRequirementRequest requirementRequest)
+        //{
+        //    var result = await appDbContext.CabRequirementRequests
+        //        .FirstOrDefaultAsync(e => e.Id == requirementRequest.Id);
+
+        //    if (result != null)
+        //    {
+        //        result.UserId = requirementRequest.UserId;
+        //        result.TimeSlotId = requirementRequest.TimeSlotId;
+        //        //result.TimeSlot = requirementRequest.TimeSlot;
+        //        result.ApprovedBy = requirementRequest.ApprovedBy;
+        //        result.CreatedBy = requirementRequest.CreatedBy;
+        //        result.PickUpLocation = requirementRequest.PickUpLocation;
+        //        result.DropLocation = requirementRequest.DropLocation;
+        //        result.CreatedDate = requirementRequest.CreatedDate;
+        //        //result.CreatedBy = requirementRequest.CreatedBy;
+        //        result.IsDeleted = requirementRequest.IsDeleted;
+        //        result.IsApproved = requirementRequest.IsApproved;
+        //        result.RequestDate = requirementRequest.RequestDate;
+                
+
+
+
+                
+
+        //        await appDbContext.SaveChangesAsync();
+
+        //        return result;
+        //    }
+
+        //    return null;
+        //}
+
+        //public async Task<IEnumerable<CabRequirementRequest>> GetCab()
+        //{
+        //    return await appDbContext.CabRequirementRequests.ToListAsync();
+        //}
+
+        //public async Task<CabRequirementRequest> InsertUser(CabRequirementRequest requirementRequest)
+        //{
+        //    try
+        //    {
+        //        var result = await appDbContext.CabRequirementRequests.AddAsync(requirementRequest);
+        //        appDbContext.CabRequirementRequests.Add(requirementRequest);
+        //        await appDbContext.SaveChangesAsync();
+        //        return result.Entity;
+        //        //return await appDbContext.CabRequirementRequests.ToListAsync();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    //return null;
+        //}
+        public async Task<CabRequirementRequest> GetCab(int Id)
         {
-            try
-            {
-                return Task.FromResult(new CabResponse()
-                {
-                    Emp_Id = 1,
-                    FirstName = "FirstTest",
-                    LastName = "LastName",
-                    Email ="test@test.com",
-                    Phone = "1234567890"
-                });
-            }
-            catch (Exception ex)
-            {
-                Logger.Error($"Exception occurs in InsertUser For User is {ex.Message}");
-                throw new Exception(ex.Message);
-            }
+            return await appDbContext.CabRequirementRequests
+                .FirstOrDefaultAsync(e => e.Id == Id);
         }
 
-        public  Task<CabResponse> UpdateCab(CabRequest re)
-        {
-            return Task.FromResult(new CabResponse()
-            {
-                Emp_Id = 1,
-                FirstName = "FtTest",
-                LastName = "Laame",
-                Email = "testt.com",
-                Phone = "1234590"
-            });
-            
-        }
     }
 }
+

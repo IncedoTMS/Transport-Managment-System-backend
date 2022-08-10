@@ -8,8 +8,9 @@ using TransportManagmentSystemBackend.Core.Domain.Models;
 
 namespace TransportManagmentSystemBackend.Core.Interfaces.Repositories
 {
-    public interface IUserRepository
+    public interface ICabRequirmentRequestRepository
     {
-        Task<UserResponse> InsertUser(UserRequest request);
+
+       // Task<CabRequirementRequest> InsertUser(CabRequirementRequest requirementRequest);
     }
 }
