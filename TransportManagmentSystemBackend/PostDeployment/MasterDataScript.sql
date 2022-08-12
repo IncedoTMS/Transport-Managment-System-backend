@@ -25,7 +25,7 @@ CREATE TABLE dbo.[User] (
   Password VARCHAR(50),
   Phone VARCHAR(15),
   RoleId INT NOT NULL,
-  AddressId INT NOT NULL,
+  AddressId INT,
   CONSTRAINT FK_Role_User FOREIGN KEY (RoleId) REFERENCES Role(Id),
   CONSTRAINT FK_Address_User FOREIGN KEY (AddressId) REFERENCES Address(Id)
 );
