@@ -1,5 +1,5 @@
 CREATE TABLE Role (
-  Id INT PRIMARY KEY,
+  Id INT PRIMARY KEY IDENTITY(1, 1),
   Name VARCHAR(50),
   Description VARCHAR(500),
   CreatedBy VARCHAR(100),
@@ -7,7 +7,7 @@ CREATE TABLE Role (
 );
 
 CREATE TABLE Address (
-  Id INT PRIMARY KEY,
+  Id INT PRIMARY KEY IDENTITY(1, 1),
   AddressName VARCHAR(200),
   City VARCHAR(50),
   State VARCHAR(50),
@@ -17,21 +17,21 @@ CREATE TABLE Address (
 );
 
 CREATE TABLE dbo.[User] (
-  Id INT PRIMARY KEY,
+  Id INT PRIMARY KEY IDENTITY(1, 1),
   FirstName VARCHAR(50),
   LastName VARCHAR(50),
   EmpCode INT,
   Email VARCHAR(100),
   Password VARCHAR(50),
   Phone VARCHAR(15),
-  RoleId INT,
+  RoleId INT NOT NULL,
   AddressId INT,
   CONSTRAINT FK_Role_User FOREIGN KEY (RoleId) REFERENCES Role(Id),
   CONSTRAINT FK_Address_User FOREIGN KEY (AddressId) REFERENCES Address(Id)
 );
 
 CREATE TABLE CabRequirementSlot(
-  Id INT PRIMARY KEY,
+  Id INT PRIMARY KEY IDENTITY(1, 1),
   Time TIME(7) NOT NULL,
   SlotAvailableTime INT NOT NULL,
   CreatedBy VARCHAR(100) NOT NULL,
@@ -39,9 +39,9 @@ CREATE TABLE CabRequirementSlot(
 );
 
 CREATE TABLE CabRequirementRequest (
-  Id INT PRIMARY KEY,
-  UserId INT,
-  TimeSlotId INT,
+  Id INT PRIMARY KEY IDENTITY(1, 1),
+  UserId INT NOT NULL,
+  TimeSlotId INT NOT NULL,
   RequestDate DATETIME,
   IsApproved BIT,
   ApprovedBy VARCHAR(500),
