@@ -39,13 +39,12 @@ namespace TransportManagmentSystemBackend.Api
             tmsDbConnectionString = configuration.GetConnectionString("TransportManagmentSystem");
 
             //// TransportManagmentSystem database
-
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IUserRepository, UserRepository>();
-          
+         
             services.AddScoped<ICabRequirementRequestService, CabRequirementRequestService>();
             services.AddScoped<ICabRequirmentRequestRepository, CabRequirementRequestRepository>();
 
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddSingleton(appSettings);
 
             return services;

@@ -27,7 +27,6 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("server=(local); integrated security=true;database=TMS");
             }
         }
@@ -37,8 +36,6 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
             modelBuilder.Entity<Address>(entity =>
             {
                 entity.ToTable("Address");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.AddressName)
                     .HasMaxLength(200)
@@ -65,8 +62,6 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
             {
                 entity.ToTable("CabRequirementRequest");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.ApprovedBy)
                     .HasMaxLength(500)
                     .IsUnicode(false);
@@ -92,19 +87,19 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
                 entity.HasOne(d => d.TimeSlot)
                     .WithMany(p => p.CabRequirementRequests)
                     .HasForeignKey(d => d.TimeSlotId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CabReqSlot_CabReqReq");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.CabRequirementRequests)
                     .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_User_CabReqReq");
             });
 
             modelBuilder.Entity<CabRequirementSlot>(entity =>
             {
                 entity.ToTable("CabRequirementSlot");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedBy)
                     .IsRequired()
@@ -114,18 +109,11 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.Time)
-                    .IsRequired()
-                    .IsRowVersion()
-                    .IsConcurrencyToken();
             });
 
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.ToTable("Role");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedBy)
                     .HasMaxLength(100)
@@ -147,8 +135,6 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("User");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Email)
                     .HasMaxLength(100)
@@ -178,6 +164,7 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Role_User");
             });
 
