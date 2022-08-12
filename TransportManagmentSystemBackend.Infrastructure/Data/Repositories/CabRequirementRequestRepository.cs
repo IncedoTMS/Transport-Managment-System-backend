@@ -71,7 +71,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     UserId = x.UserId,
 
                     TimeSlotId = x.TimeSlotId,
-                    RequestDate = x.RequestDate,
+                    RequestDate = (DateTime)x.RequestDate,
                     IsApproved = false,
                     PickUpLocation = x.PickUpLocation,
                     DropLocation = x.DropLocation,
@@ -134,7 +134,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     response.Id = res.Id;
                     response.UserId = res.UserId;
                     response.TimeSlotId = res.TimeSlotId;
-                    response.RequestDate = res.RequestDate;
+                    response.RequestDate = (DateTime)res.RequestDate;
                     response.IsApproved = true;
                     response.PickUpLocation = res.PickUpLocation;
                     response.DropLocation = res.DropLocation;
