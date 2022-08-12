@@ -10,5 +10,7 @@ namespace TransportManagmentSystemBackend.Core.Services
     public interface IUserService
     {
         Task<UserResponse> AddUser(UserRequest request);
+        Task<UserResponse> UpdateUser(int id, UserRequest request);
+
     }
 }

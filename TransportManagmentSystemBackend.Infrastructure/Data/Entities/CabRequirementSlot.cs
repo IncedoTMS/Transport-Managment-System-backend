@@ -11,10 +11,10 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Entities
         }
 
         public int Id { get; set; }
-        public byte[] Time { get; set; }
+        public TimeSpan Time { get; set; }
         public int SlotAvailableTime { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime? CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         public virtual ICollection<CabRequirementRequest> CabRequirementRequests { get; set; }
     }

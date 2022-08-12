@@ -49,6 +49,29 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             }
         }
 
+        [HttpPut("{id}")]
+        public async Task<ActionResult<UserResponse>> PutAsync(int id, UserRequest request)
+        {
+            Logger.Info($"UserController.PutAsync method called.");
+            Logger.Info($"UserRequest Body is {Newtonsoft.Json.JsonConvert.SerializeObject(request)}");
+
+            try
+            {
+                if (id == null || request == null)
+                {
+                    return this.BadRequest(nameof(id));
+                }
+
+                var resp = await userService.UpdateUser(id, request);
+                return resp == null ? NotFound() : Ok(resp);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception ocuurs in UserController.PutAsync method ={ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
 
     }
 }
