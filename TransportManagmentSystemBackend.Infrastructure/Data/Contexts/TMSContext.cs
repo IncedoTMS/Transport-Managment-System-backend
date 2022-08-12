@@ -38,8 +38,6 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
             {
                 entity.ToTable("Address");
 
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
-
                 entity.Property(e => e.AddressName)
                     .HasMaxLength(200)
                     .IsUnicode(false);
@@ -64,8 +62,6 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
             modelBuilder.Entity<CabRequirementRequest>(entity =>
             {
                 entity.ToTable("CabRequirementRequest");
-
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.ApprovedBy)
                     .HasMaxLength(500)
@@ -92,19 +88,19 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
                 entity.HasOne(d => d.TimeSlot)
                     .WithMany(p => p.CabRequirementRequests)
                     .HasForeignKey(d => d.TimeSlotId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CabReqSlot_CabReqReq");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.CabRequirementRequests)
                     .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_User_CabReqReq");
             });
 
             modelBuilder.Entity<CabRequirementSlot>(entity =>
             {
                 entity.ToTable("CabRequirementSlot");
-
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.CreatedBy)
                     .IsRequired()
@@ -114,18 +110,11 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.Time)
-                    .IsRequired()
-                    .IsRowVersion()
-                    .IsConcurrencyToken();
             });
 
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.ToTable("Role");
-
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.CreatedBy)
                     .HasMaxLength(100)
@@ -147,8 +136,6 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("User");
-
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Email)
                     .HasMaxLength(100)
@@ -178,6 +165,7 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Role_User");
             });
 
