@@ -29,5 +29,17 @@ namespace TransportManagmentSystemBackend.Core.Services
                 return await _repo.InsertUser(request);
             }
         }
+        public async Task<UserResponse> EditUser(int id, UserRequest request)
+        {
+            if (id == null)
+            {
+                Logger.Error("UserService.AddUser is called and getting null exception for update user");
+                throw new ArgumentException(nameof(EditUser));
+            }
+            else
+            {
+                return await _repo.EditThisUser(id,request);
+            }
+        }
     }
 }

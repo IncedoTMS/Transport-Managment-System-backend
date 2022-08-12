@@ -148,7 +148,7 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
             {
                 entity.ToTable("User");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Email)
                     .HasMaxLength(100)
