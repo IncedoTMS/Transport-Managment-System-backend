@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using System;
@@ -7,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TransportManagementSystemBackend.Infrastructure.Data.Contexts;
-using TransportManagementSystemBackend.Infrastructure.Data.Entities;
 using TransportManagmentSystemBackend.Core.Domain.Models;
 using TransportManagmentSystemBackend.Core.Interfaces.Repositories;
 
@@ -33,6 +31,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
 
                 appDbContext.CabRequirementRequests.Add(new TransportManagementSystemBackend.Infrastructure.Data.Entities.CabRequirementRequest
                 {
+                    
                     UserId = request.UserId,
                     TimeSlotId = request.TimeSlotId,
                     RequestDate = request.RequestDate,
@@ -43,7 +42,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     IsDeleted = false,
                     CreatedBy = "SystemUser",
                     CreatedDate = DateTime.Now
-                });
+                }); ;
 
                 int id = appDbContext.SaveChanges();
 
@@ -62,7 +61,109 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 throw new Exception(ex.Message);
             }
         }
+        public async Task<List<CabRequirementRequestResponse>> GetCab()
+        {
+            try
+            {
+                return await appDbContext.CabRequirementRequests.Select(x => new CabRequirementRequestResponse
+                {
+                    Id = x.Id,
+                    UserId = x.UserId,
+
+                    TimeSlotId = x.TimeSlotId,
+                    RequestDate = x.RequestDate,
+                    IsApproved = false,
+                    PickUpLocation = x.PickUpLocation,
+                    DropLocation = x.DropLocation,
+                }).ToListAsync();
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception occurs in GetRecord For CabRequirmentRequest is {ex.Message}");
+                throw new Exception(ex.Message);
+
+            }
+        }
+        public async Task<CabRequirementRequestResponse> UpdateCabRequirmentRequest(Core.Domain.Models.CabRequirementRequest request, int Id)
+        {
+            var response = new CabRequirementRequestResponse();
+            try
+            {
+                var cab = await appDbContext.CabRequirementRequests.FindAsync(Id);
+                if (cab != null)
+                {
+                    //cab.Id = response.Id;
+                    cab.UserId = request.UserId;
+                    cab.TimeSlotId = request.TimeSlotId;
+                    cab.RequestDate = request.RequestDate;
+                    cab.IsApproved = true;
+                    cab.PickUpLocation = request.PickUpLocation;
+                    cab.DropLocation = request.DropLocation;
+                    await appDbContext.SaveChangesAsync();
+                    response.Id = cab.Id;
+                    response.UserId = request.UserId;
+                    response.TimeSlotId = request.TimeSlotId;
+                    response.RequestDate = request.RequestDate;
+                    response.IsApproved = false;
+                    response.PickUpLocation = request.PickUpLocation;
+                    response.DropLocation = request.DropLocation;
+
+                }
+                else
+                {
+                    return null;
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception occurs in UpdateRecord For CabRequirmentRequest is {ex.Message}");
+                throw new Exception(ex.Message);
+
+            }
+        }
+        public async Task<CabRequirementRequestResponse> GetCabById(int Id)
+        {
+            var response = new CabRequirementRequestResponse();
+            try
+            {
+                var res = await appDbContext.CabRequirementRequests.FirstOrDefaultAsync(e => e.Id == Id);
+                if (res != null)
+                {
+                    response.Id = res.Id;
+                    response.UserId = res.UserId;
+                    response.TimeSlotId = res.TimeSlotId;
+                    response.RequestDate = res.RequestDate;
+                    response.IsApproved = true;
+                    response.PickUpLocation = res.PickUpLocation;
+                    response.DropLocation = res.DropLocation;
+
+                }
+                else
+                {
+                    return null;
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception occurs in GetRecord For CabRequirmentRequest is {ex.Message}");
+                throw new Exception(ex.Message);
+
+            }
+
+
+        }
+       
+
 
     }
 }
 
+
+
+
+            
+        
+        

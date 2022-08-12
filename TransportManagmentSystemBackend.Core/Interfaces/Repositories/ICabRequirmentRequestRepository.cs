@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +13,9 @@ namespace TransportManagmentSystemBackend.Core.Interfaces.Repositories
     {
 
         Task<CabRequirementRequestResponse> InsertCabRequirmentRequest(CabRequirementRequest requirementRequest);
+        Task<List<CabRequirementRequestResponse>> GetCab();
+        Task<CabRequirementRequestResponse> GetCabById(int Id);
+        Task<CabRequirementRequestResponse> UpdateCabRequirmentRequest(CabRequirementRequest requirementRequest,int Id);
+        
     }
 }

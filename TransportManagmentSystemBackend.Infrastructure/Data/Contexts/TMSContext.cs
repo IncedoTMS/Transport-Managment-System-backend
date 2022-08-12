@@ -38,7 +38,7 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
             {
                 entity.ToTable("Address");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.AddressName)
                     .HasMaxLength(200)
@@ -65,7 +65,7 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
             {
                 entity.ToTable("CabRequirementRequest");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.ApprovedBy)
                     .HasMaxLength(500)
@@ -104,7 +104,7 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
             {
                 entity.ToTable("CabRequirementSlot");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.CreatedBy)
                     .IsRequired()
@@ -125,7 +125,7 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
             {
                 entity.ToTable("Role");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.CreatedBy)
                     .HasMaxLength(100)
@@ -148,7 +148,7 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
             {
                 entity.ToTable("User");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Email)
                     .HasMaxLength(100)
