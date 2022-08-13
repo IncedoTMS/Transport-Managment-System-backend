@@ -43,5 +43,17 @@ namespace TransportManagmentSystemBackend.Core.Services
             }
         }
 
+        public async Task<UserLoginResponse> GetUserLogin(UserLoginRequest request)
+        {
+            if (request == null)
+            {
+                Logger.Error("UserService.GetUserLogin is called and getting null exception for add user");
+                throw new ArgumentException(nameof(GetUserLogin));
+            }
+            else
+            {
+                return await _repo.GetUserDetails(request);
+            }
+        }
     }
 }
