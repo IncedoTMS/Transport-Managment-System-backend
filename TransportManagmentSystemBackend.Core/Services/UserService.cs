@@ -47,6 +47,7 @@ namespace TransportManagmentSystemBackend.Core.Services
         {
                 return await _repo.GetAllUsers();
         }
+
         public async Task<UserResponse> DeleteUser(int id)
         {
             if (id == null)
@@ -57,6 +58,19 @@ namespace TransportManagmentSystemBackend.Core.Services
             else
             {
                 return await _repo.DeleteThisUser(id);
+            }
+        }
+
+        public async Task<UserLoginResponse> GetUserLogin(UserLoginRequest request)
+        {
+            if (request == null)
+            {
+                Logger.Error("UserService.GetUserLogin is called and getting null exception for add user");
+                throw new ArgumentException(nameof(GetUserLogin));
+            }
+            else
+            {
+                return await _repo.GetUserDetails(request);
             }
         }
     }

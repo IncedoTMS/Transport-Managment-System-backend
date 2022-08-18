@@ -66,7 +66,6 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
             }
         }
 
-
         public async Task<UserResponse> UpdateThisUser(int id, UserRequest request)
         {
             var response = new UserResponse();
@@ -106,7 +105,34 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
             catch (DbUpdateConcurrencyException ex)
             {
                 return null;
+            }
+        }
 
+        public virtual async Task<UserLoginResponse> GetUserDetails(UserLoginRequest request)
+        {
+            try
+            {
+                var id = request.UserName;
+                var users = await appDbContext.Users.FirstOrDefaultAsync(x => x.Email == id);
+                var temp = users;
+                var response = new UserLoginResponse();
+                if (users != null && Encryptword(request.Password) == users.Password)
+                {
+                    response.FirstName = users.FirstName;
+                    response.LastName = users.LastName;
+                    response.EmpCode = users.EmpCode;
+                    response.UserName = users.Email;
+                    response.Phone = users.Phone;
+                    response.RoleId = users.RoleId;
+                    response.AddressId = users.AddressId;
+                }
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception occurs in GetUserDetails For User is {ex.Message}");
+                throw new Exception(ex.Message);
             }
         }
 
@@ -185,6 +211,5 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
             objt.Clear();
             return Convert.ToBase64String(resArray, 0, resArray.Length);
         }
-
     }
 }

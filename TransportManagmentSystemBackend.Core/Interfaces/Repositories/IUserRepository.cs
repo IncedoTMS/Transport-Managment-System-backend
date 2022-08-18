@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using TransportManagmentSystemBackend.Core.Domain.Models;
 
-
 namespace TransportManagmentSystemBackend.Core.Interfaces.Repositories
 {
     public interface IUserRepository
@@ -15,6 +14,6 @@ namespace TransportManagmentSystemBackend.Core.Interfaces.Repositories
         Task<UserResponse> UpdateThisUser(int id, UserRequest request);
         Task<List<UserResponse>> GetAllUsers();
         Task<UserResponse> DeleteThisUser(int id);
-
+        Task<UserLoginResponse> GetUserDetails(UserLoginRequest request);
     }
 }

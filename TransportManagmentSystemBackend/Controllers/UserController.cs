@@ -108,5 +108,32 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             }
         }
 
+        [ProducesResponseType(typeof(UserLoginResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UserLoginResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(UserLoginResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(UserLoginResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(UserLoginResponse), StatusCodes.Status500InternalServerError)]
+        [HttpPost("login")]
+        public async Task<ActionResult<UserLoginResponse>> LoginPostAsync([FromBody] UserLoginRequest request)
+        {
+            Logger.Info($"UserController.LoginPostAsync method called.");
+            Logger.Info($"UserLoginRequest Body is {Newtonsoft.Json.JsonConvert.SerializeObject(request)}");
+
+            try
+            {
+                if (request == null)
+                {
+                    return this.BadRequest(nameof(request));
+                }
+
+                var resp = await userService.GetUserLogin(request);
+                return resp == null ? NotFound() : Ok(resp);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception occurs in UserController.LoginPostAsync method ={ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }
