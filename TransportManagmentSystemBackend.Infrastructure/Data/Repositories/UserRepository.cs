@@ -11,6 +11,7 @@ using TransportManagementSystemBackend.Infrastructure.Data.Entities;
 using TransportManagmentSystemBackend.Core.Domain.Models;
 using TransportManagmentSystemBackend.Core.Interfaces.Repositories;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
 {
@@ -135,6 +136,64 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
             }
         }
 
+        public async Task<List<UserResponse>> GetAllUsers()
+        {
+            try
+            {
+                return await appDbContext.Users.Select(x => new UserResponse
+                {
+                    Id = x.Id,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    EmpCode = x.EmpCode,
+                    Email = x.Email,
+                    Phone = x.Phone,
+                    RoleId = x.RoleId,
+                    AddressId = x.AddressId,
+
+                }).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception occurs in GetAllUsers For User is {ex.Message}");
+                throw new Exception(ex.Message);
+            }
+        }
+        public async Task<UserResponse> DeleteThisUser(int id)
+        {
+            var response = new UserResponse();
+            try
+            {
+                var user = await appDbContext.Users.FindAsync(id);
+
+                if (user != null)
+                {
+                    response.Id = user.Id;
+                    response.FirstName = user.FirstName;
+                    response.LastName = user.LastName;
+                    response.EmpCode = user.EmpCode;
+                    response.Email = user.Email;
+                    response.Phone = user.Phone;
+                    response.RoleId = user.RoleId;
+                    response.AddressId = user.AddressId;
+
+                    appDbContext.Users.Remove(user);
+
+                    await appDbContext.SaveChangesAsync();
+                }
+                else
+                {
+                    return null;
+                }
+
+                return response;
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return null;
+
+            }
+        }
         public string Encryptword(string Encryptval)
         {
             byte[] SrctArray;

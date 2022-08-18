@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TransportManagmentSystemBackend.Core.Domain.Models;
 using TransportManagmentSystemBackend.Core.Services;
+using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace TransportManagmentSystemBackend.Api.Controllers
 {
@@ -68,6 +69,41 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             catch (Exception ex)
             {
                 Logger.Error($"Exception ocuurs in UserController.PutAsync method ={ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+        [HttpGet]
+        public async Task<ActionResult<UserResponse>> GetAsync()
+        {
+            Logger.Info($"UserController.GetAsync method called.");
+            try
+            {
+                return Ok(await userService.GetUsers());
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception ocuurs in UserController.GetAsync method ={ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<UserResponse>> DeleteAsync(int id)
+        {
+            Logger.Info($"UserController.DeleteAsync method called.");
+            try
+            {
+                if (id == null)
+                {
+                    return this.BadRequest(nameof(id));
+                }
+
+                var resp = await userService.DeleteUser(id);
+                return resp == null ? NotFound() : Ok(resp);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception ocuurs in UserController.DeleteAsync method ={ex.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
