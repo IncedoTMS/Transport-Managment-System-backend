@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using Microsoft.AspNetCore.Mvc;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -42,6 +43,21 @@ namespace TransportManagmentSystemBackend.Core.Services
                 return await _repo.UpdateThisUser(id, request);
             }
         }
-
+        public async Task<List<UserResponse>> GetUsers()
+        {
+                return await _repo.GetAllUsers();
+        }
+        public async Task<UserResponse> DeleteUser(int id)
+        {
+            if (id == null)
+            {
+                Logger.Error("UserService.DeleteUser is called and getting null exception for delete user");
+                throw new ArgumentException(nameof(DeleteUser));
+            }
+            else
+            {
+                return await _repo.DeleteThisUser(id);
+            }
+        }
     }
 }
