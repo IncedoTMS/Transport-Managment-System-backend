@@ -93,7 +93,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 var cab = await appDbContext.CabRequirementRequests.FindAsync(Id);
                 if (cab != null)
                 {
-                    //cab.Id = response.Id;
+                    
                     cab.UserId = request.UserId;
                     cab.TimeSlotId = request.TimeSlotId;
                     cab.RequestDate = request.RequestDate;
@@ -155,7 +155,42 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
 
 
         }
-       
+        public async Task<CabRequirementRequestResponse> DeleteThisCab(int id)
+        {
+            var response = new CabRequirementRequestResponse();
+            try
+            {
+                var res = await appDbContext.CabRequirementRequests.FindAsync(id);
+
+                if (res != null)
+                {
+                    response.Id = res.Id;
+                    response.UserId = res.UserId;
+                    response.TimeSlotId = res.TimeSlotId;
+                    response.RequestDate = (DateTime)res.RequestDate;
+                    response.IsApproved = true;
+                    response.PickUpLocation = res.PickUpLocation;
+                    response.DropLocation = res.DropLocation;
+
+
+                    appDbContext.CabRequirementRequests.Remove(res);
+
+                    await appDbContext.SaveChangesAsync();
+                }
+                else
+                {
+                    return null;
+                }
+
+                return response;
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return null;
+
+            }
+        }
+
 
 
     }

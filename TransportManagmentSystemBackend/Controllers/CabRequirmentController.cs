@@ -101,9 +101,29 @@ namespace TransportManagmentSystemBackend.Api.Controllers
                     "Error retrieving data from the database");
             }
         }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<CabRequirementRequestResponse>> DeleteAsync(int id)
+        {
+            Logger.Info($"CabRequirmentController.DeleteAsync method called.");
+            try
+            {
+                if (id == null)
+                {
+                    return this.BadRequest(nameof(id));
+                }
+
+                var resp = await cabRequirementRequestService.DeleteCab(id);
+                return resp == null ? NotFound() : Ok(resp);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception ocuurs in CabRequirmentController.DeleteAsync method ={ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
 
 
-        
+
 
     }
 }

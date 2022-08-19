@@ -58,6 +58,18 @@ namespace TransportManagmentSystemBackend.Core.Services
                 return await _repo.UpdateCabRequirmentRequest(request,Id);
             }
         }
-       
+        public async Task<CabRequirementRequestResponse> DeleteCab(int id)
+        {
+            if (id == null)
+            {
+                Logger.Error("UserService.DeleteUser is called and getting null exception for delete user");
+                throw new ArgumentException(nameof(DeleteCab));
+            }
+            else
+            {
+                return await _repo.DeleteThisCab(id);
+            }
+        }
+
     }
 }
