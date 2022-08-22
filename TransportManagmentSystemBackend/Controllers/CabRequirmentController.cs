@@ -102,23 +102,23 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             }
         }
         [HttpDelete("{id}")]
-        public async Task<ActionResult<CabRequirementRequestResponse>> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             Logger.Info($"CabRequirmentController.DeleteAsync method called.");
             try
             {
                 if (id == null)
                 {
-                    return this.BadRequest(nameof(id));
+                    return false;
                 }
 
                 var resp = await cabRequirementRequestService.DeleteCab(id);
-                return resp == null ? NotFound() : Ok(resp);
+                return resp == false ?  false: true;
             }
             catch (Exception ex)
             {
                 Logger.Error($"Exception ocuurs in CabRequirmentController.DeleteAsync method ={ex.Message}");
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return false;
             }
         }
 

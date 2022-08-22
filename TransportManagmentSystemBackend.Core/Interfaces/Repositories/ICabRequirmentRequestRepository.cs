@@ -16,6 +16,6 @@ namespace TransportManagmentSystemBackend.Core.Interfaces.Repositories
         Task<List<CabRequirementRequestResponse>> GetCab();
         Task<CabRequirementRequestResponse> GetCabById(int Id);
         Task<CabRequirementRequestResponse> UpdateCabRequirmentRequest(CabRequirementRequest requirementRequest,int Id);
-        Task<CabRequirementRequestResponse> DeleteThisCab(int id);
+        Task<bool> DeleteThisCab(int id);
     }
 }

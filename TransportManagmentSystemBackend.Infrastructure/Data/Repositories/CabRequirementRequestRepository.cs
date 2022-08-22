@@ -155,7 +155,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
 
 
         }
-        public async Task<CabRequirementRequestResponse> DeleteThisCab(int id)
+        public async Task<bool> DeleteThisCab(int id)
         {
             var response = new CabRequirementRequestResponse();
             try
@@ -179,14 +179,14 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 }
                 else
                 {
-                    return null;
+                    return false;
                 }
 
-                return response;
+                return true;
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                return null;
+                return false;
 
             }
         }

@@ -58,7 +58,7 @@ namespace TransportManagmentSystemBackend.Core.Services
                 return await _repo.UpdateCabRequirmentRequest(request,Id);
             }
         }
-        public async Task<CabRequirementRequestResponse> DeleteCab(int id)
+        public async Task<bool> DeleteCab(int id)
         {
             if (id == null)
             {
