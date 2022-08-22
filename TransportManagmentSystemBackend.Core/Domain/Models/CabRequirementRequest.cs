@@ -11,7 +11,7 @@ namespace TransportManagmentSystemBackend.Core.Domain.Models
         public int UserId { get; set; }
         public int TimeSlotId { get; set; }
         public DateTime RequestDate { get; set; }
-        public bool IsApproved { get; set; }
+        public bool? IsApproved { get; set; }
         public string PickUpLocation { get; set; }
         public string DropLocation { get; set; }
     }

@@ -68,14 +68,14 @@ namespace TransportManagmentSystemBackend.Api.Controllers
         {
             Logger.Info($"CabRequirmentController.PutAsync method called.");
             Logger.Info($"CabRequirementRequest Body is {Newtonsoft.Json.JsonConvert.SerializeObject(requirmentRequest)}");
-            if(id!= requirmentRequest.UserId)
-            {
-                return BadRequest();
-            }
-
+           
             try
             {
-                
+                if (id == null || requirmentRequest == null)
+                {
+                    return this.BadRequest(nameof(id));
+                }
+
 
                 var createdCabRequirmentRequest = await cabRequirementRequestService.Update(requirmentRequest,id);
                 return createdCabRequirmentRequest == null ? NotFound() : Ok(createdCabRequirmentRequest);
