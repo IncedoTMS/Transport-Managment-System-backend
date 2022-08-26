@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace TransportManagmentSystemBackend.Core.Interfaces.Repositories
         Task<List<CabRequirementRequestResponse>> GetCab();
         Task<CabRequirementRequestResponse> GetCabById(int Id);
         Task<CabRequirementRequestResponse> UpdateCabRequirmentRequest(CabRequirementRequest requirementRequest,int Id);
+        Task<CabRequirementRequestResponse> UpdatePatchCabRequirmentRequest(JsonPatchDocument requirementRequest, int Id);
+
         Task<bool> DeleteThisCab(int id);
     }
 }

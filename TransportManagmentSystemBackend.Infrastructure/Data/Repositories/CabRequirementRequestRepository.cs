@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using System;
@@ -187,6 +188,40 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
             catch (DbUpdateConcurrencyException ex)
             {
                 return false;
+
+            }
+        }
+        public async Task<CabRequirementRequestResponse> UpdatePatchCabRequirmentRequest(JsonPatchDocument request, int Id)
+        {
+            var response = new CabRequirementRequestResponse();
+            try
+            {
+                var cab = await appDbContext.CabRequirementRequests.FindAsync(Id);
+                if (cab != null)
+                {
+
+                  request.ApplyTo(cab);
+                    await appDbContext.SaveChangesAsync();
+                    response.UserId = cab.UserId;
+                    response.Id = cab.Id;
+                    response.TimeSlotId = cab.TimeSlotId;
+                    response.RequestDate = (DateTime)cab.RequestDate;
+                    response.IsApproved = cab.IsApproved;
+                    response.PickUpLocation = cab.PickUpLocation;
+                    response.DropLocation = cab.DropLocation;
+
+
+                }
+                else
+                {
+                    return null;
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception occurs in UpdatePatchRecord For CabRequirmentRequest is {ex.Message}");
+                throw new Exception(ex.Message);
 
             }
         }

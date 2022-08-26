@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -56,6 +57,18 @@ namespace TransportManagmentSystemBackend.Core.Services
             else
             {
                 return await _repo.UpdateCabRequirmentRequest(request,Id);
+            }
+        }
+        public async Task<CabRequirementRequestResponse> UpdatePatch(JsonPatchDocument request, int Id)
+        {
+            if (request == null)
+            {
+                Logger.Error("CabRequirementRequestService.UpdatePatch is called and getting null exception for update patch cab");
+                throw new ArgumentException(nameof(UpdatePatch));
+            }
+            else
+            {
+                return await _repo.UpdatePatchCabRequirmentRequest(request, Id);
             }
         }
         public async Task<bool> DeleteCab(int id)
