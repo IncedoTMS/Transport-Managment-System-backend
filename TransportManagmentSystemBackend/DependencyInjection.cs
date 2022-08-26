@@ -37,14 +37,20 @@ namespace TransportManagmentSystemBackend.Api
             }
 
             tmsDbConnectionString = configuration.GetConnectionString("TransportManagmentSystem");
+            var JWTSecret = configuration.GetSection("JWT");
 
             //// TransportManagmentSystem database
-         
+
             services.AddScoped<ICabRequirementRequestService, CabRequirementRequestService>();
             services.AddScoped<ICabRequirmentRequestRepository, CabRequirementRequestRepository>();
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
+
+
+            services.AddScoped<IJWTService, JWTService>();
+            services.AddScoped<IJWTRepo, JWTRepo>();
+
             services.AddSingleton(appSettings);
 
             return services;
