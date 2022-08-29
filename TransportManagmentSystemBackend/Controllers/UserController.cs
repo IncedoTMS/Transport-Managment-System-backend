@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NLog;
@@ -6,21 +7,26 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TransportManagmentSystemBackend.Core.Domain.Models;
+using TransportManagmentSystemBackend.Core.Interfaces.Repositories;
 using TransportManagmentSystemBackend.Core.Services;
 using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace TransportManagmentSystemBackend.Api.Controllers
 {
+
     [ApiController]
     [Route("api/v{version:apiVersion}/user")]
     public class UserController : ControllerBase
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IUserService userService;
+        private readonly IJWTService _jWTManager;
 
-        public UserController(IUserService userService)
+
+        public UserController(IUserService userService, IJWTService jWTManager)
         {
             this.userService = userService ?? throw new ArgumentNullException(nameof(userService));
+            this._jWTManager = jWTManager;
         }
 
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
@@ -106,6 +112,21 @@ namespace TransportManagmentSystemBackend.Api.Controllers
                 Logger.Error($"Exception ocuurs in UserController.DeleteAsync method ={ex.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("authenticate")]
+        public IActionResult Authentication(UserLoginRequest usersdata)
+        {
+            var token = _jWTManager.Authentication(usersdata);
+
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+
+            return Ok(token);
         }
 
         [ProducesResponseType(typeof(UserLoginResponse), StatusCodes.Status200OK)]
