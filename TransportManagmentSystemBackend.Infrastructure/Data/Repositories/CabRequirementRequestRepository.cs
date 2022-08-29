@@ -35,7 +35,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     UserId = request.UserId,
                     TimeSlotId = request.TimeSlotId,
                     RequestDate = request.RequestDate,
-                    IsApproved = false,
+                    IsApproved = request.IsApproved,
                     ApprovedBy = "SystemUser",
                     PickUpLocation = request.PickUpLocation,
                     DropLocation = request.DropLocation,
@@ -72,7 +72,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
 
                     TimeSlotId = x.TimeSlotId,
                     RequestDate = (DateTime)x.RequestDate,
-                    IsApproved = false,
+                    IsApproved = x.IsApproved,
                     PickUpLocation = x.PickUpLocation,
                     DropLocation = x.DropLocation,
                 }).ToListAsync();
@@ -93,11 +93,11 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 var cab = await appDbContext.CabRequirementRequests.FindAsync(Id);
                 if (cab != null)
                 {
-                    //cab.Id = response.Id;
+                    
                     cab.UserId = request.UserId;
                     cab.TimeSlotId = request.TimeSlotId;
                     cab.RequestDate = request.RequestDate;
-                    cab.IsApproved = true;
+                    cab.IsApproved = request.IsApproved;
                     cab.PickUpLocation = request.PickUpLocation;
                     cab.DropLocation = request.DropLocation;
                     await appDbContext.SaveChangesAsync();
@@ -105,7 +105,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     response.UserId = request.UserId;
                     response.TimeSlotId = request.TimeSlotId;
                     response.RequestDate = request.RequestDate;
-                    response.IsApproved = false;
+                    response.IsApproved = request.IsApproved;
                     response.PickUpLocation = request.PickUpLocation;
                     response.DropLocation = request.DropLocation;
 
@@ -135,7 +135,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     response.UserId = res.UserId;
                     response.TimeSlotId = res.TimeSlotId;
                     response.RequestDate = (DateTime)res.RequestDate;
-                    response.IsApproved = true;
+                    response.IsApproved = res.IsApproved;
                     response.PickUpLocation = res.PickUpLocation;
                     response.DropLocation = res.DropLocation;
 
@@ -155,7 +155,42 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
 
 
         }
-       
+        public async Task<bool> DeleteThisCab(int id)
+        {
+            var response = new CabRequirementRequestResponse();
+            try
+            {
+                var res = await appDbContext.CabRequirementRequests.FindAsync(id);
+
+                if (res != null)
+                {
+                    response.Id = res.Id;
+                    response.UserId = res.UserId;
+                    response.TimeSlotId = res.TimeSlotId;
+                    response.RequestDate = (DateTime)res.RequestDate;
+                    response.IsApproved = res.IsApproved;
+                    response.PickUpLocation = res.PickUpLocation;
+                    response.DropLocation = res.DropLocation;
+
+
+                    appDbContext.CabRequirementRequests.Remove(res);
+
+                    await appDbContext.SaveChangesAsync();
+                }
+                else
+                {
+                    return false;
+                }
+
+                return true;
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return false;
+
+            }
+        }
+
 
 
     }

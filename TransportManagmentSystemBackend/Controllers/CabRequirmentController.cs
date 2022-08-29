@@ -68,14 +68,14 @@ namespace TransportManagmentSystemBackend.Api.Controllers
         {
             Logger.Info($"CabRequirmentController.PutAsync method called.");
             Logger.Info($"CabRequirementRequest Body is {Newtonsoft.Json.JsonConvert.SerializeObject(requirmentRequest)}");
-            if(id!= requirmentRequest.UserId)
-            {
-                return BadRequest();
-            }
-
+           
             try
             {
-                
+                if (id == null || requirmentRequest == null)
+                {
+                    return this.BadRequest(nameof(id));
+                }
+
 
                 var createdCabRequirmentRequest = await cabRequirementRequestService.Update(requirmentRequest,id);
                 return createdCabRequirmentRequest == null ? NotFound() : Ok(createdCabRequirmentRequest);
@@ -101,9 +101,29 @@ namespace TransportManagmentSystemBackend.Api.Controllers
                     "Error retrieving data from the database");
             }
         }
+        [HttpDelete("{id}")]
+        public async Task<bool> DeleteAsync(int id)
+        {
+            Logger.Info($"CabRequirmentController.DeleteAsync method called.");
+            try
+            {
+                if (id == null)
+                {
+                    return false;
+                }
+
+                var resp = await cabRequirementRequestService.DeleteCab(id);
+                return resp == false ?  false: true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception ocuurs in CabRequirmentController.DeleteAsync method ={ex.Message}");
+                return false;
+            }
+        }
 
 
-        
+
 
     }
 }
