@@ -191,7 +191,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
 
             }
         }
-        public async Task<CabRequirementRequestResponse> UpdatePatchCabRequirmentRequest(JsonPatchDocument request, int Id)
+        public async Task<bool> UpdatePatchCabRequirmentRequest(JsonPatchDocument request, int Id)
         {
             var response = new CabRequirementRequestResponse();
             try
@@ -202,21 +202,12 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
 
                   request.ApplyTo(cab);
                     await appDbContext.SaveChangesAsync();
-                    response.UserId = cab.UserId;
-                    response.Id = cab.Id;
-                    response.TimeSlotId = cab.TimeSlotId;
-                    response.RequestDate = (DateTime)cab.RequestDate;
-                    response.IsApproved = cab.IsApproved;
-                    response.PickUpLocation = cab.PickUpLocation;
-                    response.DropLocation = cab.DropLocation;
-
-
                 }
                 else
                 {
-                    return null;
+                    return false;
                 }
-                return response;
+                return true;
             }
             catch (Exception ex)
             {

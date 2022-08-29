@@ -123,7 +123,7 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             }
         }
         [HttpPatch("{id}")]
-        public async Task<ActionResult<CabRequirementRequestResponse>> PatchAsync([FromBody] JsonPatchDocument requirmentRequest,int id) 
+        public async Task<ActionResult<bool>> PatchAsync([FromBody] JsonPatchDocument requirmentRequest,int id) 
         {
             Logger.Info($"CabRequirmentController.PatchAsync method called.");
             Logger.Info($"CabRequirementRequest Body is {Newtonsoft.Json.JsonConvert.SerializeObject(requirmentRequest)}");

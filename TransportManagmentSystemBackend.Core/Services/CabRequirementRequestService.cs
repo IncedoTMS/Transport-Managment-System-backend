@@ -59,7 +59,7 @@ namespace TransportManagmentSystemBackend.Core.Services
                 return await _repo.UpdateCabRequirmentRequest(request,Id);
             }
         }
-        public async Task<CabRequirementRequestResponse> UpdatePatch(JsonPatchDocument request, int Id)
+        public async Task<bool> UpdatePatch(JsonPatchDocument request, int Id)
         {
             if (request == null)
             {
