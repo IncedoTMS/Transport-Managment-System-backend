@@ -83,7 +83,7 @@ namespace TransportManagmentSystemBackend
             });
 
             services.AddControllers()
-            .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+            .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())).AddNewtonsoftJson();
 
             // Configure Swagger.
             services.ConfigureSwagger();

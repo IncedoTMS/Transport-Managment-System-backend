@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NLog;
@@ -53,22 +54,22 @@ namespace TransportManagmentSystemBackend.Api.Controllers
         public async Task<ActionResult<CabRequirementRequestResponse>> GetAsync()
         {
             try
-           {
-               return Ok(await cabRequirementRequestService.GetAll());
+            {
+                return Ok(await cabRequirementRequestService.GetAll());
             }
             catch (Exception)
             {
-               return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error retrieving data from the database");
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                     "Error retrieving data from the database");
             }
 
         }
         [HttpPut("{id}")]
-        public async Task<ActionResult<CabRequirementRequestResponse>> Put([FromBody] Core.Domain.Models.CabRequirementRequest requirmentRequest,int id)
+        public async Task<ActionResult<CabRequirementRequestResponse>> Put([FromBody] Core.Domain.Models.CabRequirementRequest requirmentRequest, int id)
         {
             Logger.Info($"CabRequirmentController.PutAsync method called.");
             Logger.Info($"CabRequirementRequest Body is {Newtonsoft.Json.JsonConvert.SerializeObject(requirmentRequest)}");
-           
+
             try
             {
                 if (id == null || requirmentRequest == null)
@@ -77,7 +78,7 @@ namespace TransportManagmentSystemBackend.Api.Controllers
                 }
 
 
-                var createdCabRequirmentRequest = await cabRequirementRequestService.Update(requirmentRequest,id);
+                var createdCabRequirmentRequest = await cabRequirementRequestService.Update(requirmentRequest, id);
                 return createdCabRequirmentRequest == null ? NotFound() : Ok(createdCabRequirmentRequest);
             }
             catch (Exception ex)
@@ -93,10 +94,10 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             try
             {
                 return Ok(await cabRequirementRequestService.GetCabRequest(Id));
-               
+
             }
             catch (Exception)
-           {
+            {
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     "Error retrieving data from the database");
             }
@@ -113,7 +114,7 @@ namespace TransportManagmentSystemBackend.Api.Controllers
                 }
 
                 var resp = await cabRequirementRequestService.DeleteCab(id);
-                return resp == false ?  false: true;
+                return resp == false ? false : true;
             }
             catch (Exception ex)
             {
@@ -121,6 +122,32 @@ namespace TransportManagmentSystemBackend.Api.Controllers
                 return false;
             }
         }
+        [HttpPatch("{id}")]
+        public async Task<ActionResult<bool>> PatchAsync([FromBody] JsonPatchDocument requirmentRequest,int id) 
+        {
+            Logger.Info($"CabRequirmentController.PatchAsync method called.");
+            Logger.Info($"CabRequirementRequest Body is {Newtonsoft.Json.JsonConvert.SerializeObject(requirmentRequest)}");
+
+            try
+            {
+                if (id == null || requirmentRequest == null)
+                {
+                    return this.BadRequest(nameof(id));
+                }
+
+
+                var createdCabRequirmentRequest = await cabRequirementRequestService.UpdatePatch(requirmentRequest, id);
+                return createdCabRequirmentRequest == null ? NotFound() : Ok(createdCabRequirmentRequest);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception ocuurs in CabRequirmentController.PutAsync method ={ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+
+
 
 
 
