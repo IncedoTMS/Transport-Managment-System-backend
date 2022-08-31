@@ -60,6 +60,10 @@ namespace TransportManagmentSystemBackend.Core.Services
                 return await _repo.DeleteThisUser(id);
             }
         }
+        public async Task<UserResponse> GetUser(int? Id, int? EmpCode, string? Email)
+        {
+            return await _repo.GetUserData(Id, EmpCode, Email);
+        }
 
         public async Task<UserLoginResponse> GetUserLogin(UserLoginRequest request)
         {

@@ -114,6 +114,27 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("(Id,EmpCode,Email)")]
+        public async Task<ActionResult<UserResponse>> GetUserAsync(int? Id, int? EmpCode, string? Email)
+        {
+            Logger.Info($"UserController.GetUserAsync method called.");
+            try
+            {
+                if (Id == null && EmpCode == null && Email == null)
+                {
+                    return this.BadRequest("No Id, EmpCode, or Email provided for GetUser");
+                }
+                var resp = await userService.GetUser(Id, EmpCode, Email);
+                return resp == null ? NotFound() : Ok(resp);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception ocuurs in UserController.GetUserAsync method ={ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
         [AllowAnonymous]
         [HttpPost]
         [Route("authenticate")]

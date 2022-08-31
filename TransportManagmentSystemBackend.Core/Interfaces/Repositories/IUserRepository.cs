@@ -14,6 +14,7 @@ namespace TransportManagmentSystemBackend.Core.Interfaces.Repositories
         Task<UserResponse> UpdateThisUser(int id, UserRequest request);
         Task<List<UserResponse>> GetAllUsers();
         Task<UserResponse> DeleteThisUser(int id);
+        Task<UserResponse> GetUserData(int? Id, int? EmpCode, string? Email);
         Task<UserLoginResponse> GetUserDetails(UserLoginRequest request);
     }
 }

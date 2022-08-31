@@ -159,6 +159,49 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 throw new Exception(ex.Message);
             }
         }
+        public async Task<UserResponse> GetUserData(int? Id, int? EmpCode, string? Email)
+        {
+            try
+            {
+                User users;
+                if(Id != null)
+                {
+                    users = await appDbContext.Users.FindAsync(Id);
+                }
+                else if(EmpCode != null)
+                {
+                    users = await appDbContext.Users.FirstOrDefaultAsync(x => x.EmpCode == EmpCode);
+                }
+                else if(Email != null)
+                {
+                    users = await appDbContext.Users.FirstOrDefaultAsync(x => x.Email == Email);
+                }
+                else
+                {
+                    return null;
+                }
+                UserResponse response = new UserResponse();
+                if (users != null)
+                {
+                    response.Id = users.Id;
+                    response.FirstName = users.FirstName;
+                    response.LastName = users.LastName;
+                    response.EmpCode = users.EmpCode;
+                    response.Email = users.Email;
+                    response.Phone = users.Phone;
+                    response.RoleId = users.RoleId;
+                    response.AddressId = users.AddressId;
+                }
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception occurs in GetAllUsers For User is {ex.Message}");
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<UserResponse> DeleteThisUser(int id)
         {
             var response = new UserResponse();
