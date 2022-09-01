@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TransportManagementSystemBackend.Infrastructure.Data.Contexts;
+using TransportManagementSystemBackend.Infrastructure.Data.Entities;
 using TransportManagmentSystemBackend.Core.Domain.Models;
 using TransportManagmentSystemBackend.Core.Interfaces.Repositories;
 
@@ -70,7 +71,6 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 {
                     Id = x.Id,
                     UserId = x.UserId,
-
                     TimeSlotId = x.TimeSlotId,
                     RequestDate = (DateTime)x.RequestDate,
                     IsApproved = x.IsApproved,
@@ -124,28 +124,36 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
 
             }
         }
-        public async Task<CabRequirementRequestResponse> GetCabById(int Id)
+        public async Task<IQueryable<CabRequirementRequestResponse>> GetCabById(int? Id,int? UserId,int? RoleId)
         {
-            var response = new CabRequirementRequestResponse();
+
             try
             {
-                var res = await appDbContext.CabRequirementRequests.FirstOrDefaultAsync(e => e.Id == Id);
-                if (res != null)
+                
+                if (Id != null)
                 {
-                    response.Id = res.Id;
-                    response.UserId = res.UserId;
-                    response.TimeSlotId = res.TimeSlotId;
-                    response.RequestDate = (DateTime)res.RequestDate;
-                    response.IsApproved = res.IsApproved;
-                    response.PickUpLocation = res.PickUpLocation;
-                    response.DropLocation = res.DropLocation;
-
+                    IQueryable<CabRequirementRequestResponse> cab = (IQueryable<CabRequirementRequestResponse>)appDbContext.CabRequirementRequests.Where(x =>x.Id == Id  );
+                    return  cab;
+                }
+                else if (UserId != null|| RoleId!=1)
+                {
+                    IQueryable<CabRequirementRequestResponse> cab = (IQueryable<CabRequirementRequestResponse>)appDbContext.CabRequirementRequests.Where(x => x.UserId == UserId);
+                    return cab;
+                }
+                else if (RoleId == 1)
+                {
+                    IQueryable<CabRequirementRequestResponse> cab = (IQueryable<CabRequirementRequestResponse>)appDbContext.CabRequirementRequests;
+                   return cab;
                 }
                 else
                 {
                     return null;
                 }
-                return response;
+
+                    
+
+                
+                
             }
             catch (Exception ex)
             {
