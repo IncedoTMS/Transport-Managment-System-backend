@@ -61,6 +61,11 @@ namespace TransportManagmentSystemBackend.Core.Services
             }
         }
 
+        public async Task<List<UserResponse>> GetUsersDetails(int? EmpCode, string Name, string Email)
+        {
+            return await _repo.GetUsersData(EmpCode, Name, Email);
+        }
+
         public async Task<UserLoginResponse> GetUserLogin(UserLoginRequest request)
         {
             if (request == null)
