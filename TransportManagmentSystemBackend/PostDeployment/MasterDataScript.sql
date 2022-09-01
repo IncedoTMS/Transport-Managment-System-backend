@@ -44,6 +44,7 @@ CREATE TABLE CabRequirementRequest (
   TimeSlotId INT NOT NULL,
   RequestDate DATETIME,
   IsApproved BIT,
+  IsAdhoc BIT,
   ApprovedBy VARCHAR(500),
   PickUpLocation VARCHAR(500),
   DropLocation VARCHAR(500), 
