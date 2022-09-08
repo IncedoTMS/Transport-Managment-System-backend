@@ -114,6 +114,32 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             }
         }
 
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status500InternalServerError)]
+        [HttpGet]
+        [Route("(EmpCode,Name,Email)")]
+        public async Task<ActionResult<UserResponse>> GetUserAsync(int? EmpCode, string Name, string Email)
+        {
+            Logger.Info($"UserController.GetUserAsync method called.");
+            try
+            {
+                if (EmpCode == null && Email == null && Name == null)
+                {
+                    return this.BadRequest("No EmpCode, Name, or Email provided for GetUser");
+                }
+                var resp = await userService.GetUsersDetails(EmpCode, Name, Email);
+                return resp.Count == 0 ? NotFound() : Ok(resp);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception ocuurs in UserController.GetUserAsync method ={ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
         [AllowAnonymous]
         [HttpPost]
         [Route("authenticate")]
