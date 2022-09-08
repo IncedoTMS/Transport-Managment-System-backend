@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TransportManagmentSystemBackend.Core.Domain.Models;
 using TransportManagmentSystemBackend.Core.Interfaces.Repositories;
@@ -29,6 +30,12 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             this._jWTManager = jWTManager;
         }
 
+        bool isValidEmail(string mail)
+        {
+            Regex regex = new Regex("^[a-zA-Z0-9]+[.+-_]{0,1}[a-zA-Z0-9]+@incedoinc.com$");
+            return regex.IsMatch(mail);
+        }
+
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status401Unauthorized)]
@@ -44,6 +51,26 @@ namespace TransportManagmentSystemBackend.Api.Controllers
                 if (request == null)
                 {
                     return this.BadRequest(nameof(request));
+                }
+                else if (string.IsNullOrEmpty(request.FirstName))
+                {
+                    return this.BadRequest("Firstname can not be empty.");
+                }
+                else if (request.EmpCode == null)
+                {
+                    return this.BadRequest("EmpCode can not be empty.");
+                }
+                else if (request.Phone.Length != 10)
+                {
+                    return this.BadRequest("Phone number should be 10 digit number.");
+                }
+                else if (!isValidEmail(request.Email))
+                {
+                    return this.BadRequest("Please enter a valid email.");
+                }
+                else if (request.Password.Length < 8)
+                {
+                    return this.BadRequest("Password should not be less than 8 character.");
                 }
 
                 var resp = await userService.AddUser(request);
@@ -171,6 +198,18 @@ namespace TransportManagmentSystemBackend.Api.Controllers
                 if (request == null)
                 {
                     return this.BadRequest(nameof(request));
+                }
+                else if (string.IsNullOrEmpty(request.UserName))
+                {
+                    return this.BadRequest("Username can not be empty.");
+                }
+                else if (!isValidEmail(request.UserName))
+                {
+                    return this.BadRequest("Please enter a valid username.");
+                }
+                else if (request.Password.Length < 8)
+                {
+                    return this.BadRequest("Password can not be less than 8 character.");
                 }
 
                 var resp = await userService.GetUserLogin(request);
