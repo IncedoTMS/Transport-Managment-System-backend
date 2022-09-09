@@ -145,7 +145,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     Id = x.Id,
                     FirstName = x.FirstName,
                     LastName = x.LastName,
-                    EmpCode = (int)x.EmpCode,
+                    EmpCode = x.EmpCode,
                     Email = x.Email,
                     Phone = x.Phone,
                     RoleId = x.RoleId,

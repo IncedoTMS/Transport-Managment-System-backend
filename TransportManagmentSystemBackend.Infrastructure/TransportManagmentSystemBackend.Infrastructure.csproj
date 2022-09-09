@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
@@ -30,12 +30,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Data\Contexts\" />
-	  <Folder Include="Data\Contexts\" />
+		<Folder Include="Data\Contexts\" />
+		<Folder Include="Data\Contexts\" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\TransportManagmentSystemBackend.Core\TransportManagmentSystemBackend.Core.csproj" />
+		<ProjectReference Include="..\TransportManagmentSystemBackend.Core\TransportManagmentSystemBackend.Core.csproj" />
 	</ItemGroup>
 
 </Project>
