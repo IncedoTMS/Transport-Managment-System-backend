@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TransportManagementSystemBackend.Infrastructure.Data.Contexts;
+using TransportManagementSystemBackend.Infrastructure.Data.Entities;
 using TransportManagmentSystemBackend.Core.Domain.Models;
 using TransportManagmentSystemBackend.Core.Interfaces.Repositories;
 
@@ -42,6 +43,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     DropLocation = request.DropLocation,
                     IsDeleted = false,
                     CreatedBy = "SystemUser",
+                    IsAdhoc = request.IsAdhoc,
                     CreatedDate = DateTime.Now
                 }); ;
 
@@ -54,6 +56,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 response.IsApproved = request.IsApproved;
                 response.PickUpLocation = request.PickUpLocation;
                 response.DropLocation = request.DropLocation;
+                response.IsAdhoc = request.IsAdhoc;
                 return response;
             }
             catch (Exception ex)
@@ -70,12 +73,12 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 {
                     Id = x.Id,
                     UserId = x.UserId,
-
                     TimeSlotId = x.TimeSlotId,
                     RequestDate = (DateTime)x.RequestDate,
                     IsApproved = x.IsApproved,
                     PickUpLocation = x.PickUpLocation,
                     DropLocation = x.DropLocation,
+                    IsAdhoc = x.IsAdhoc,
                 }).ToListAsync();
 
             }
@@ -101,6 +104,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     cab.IsApproved = request.IsApproved;
                     cab.PickUpLocation = request.PickUpLocation;
                     cab.DropLocation = request.DropLocation;
+                    cab.IsAdhoc = request.IsAdhoc;
                     await appDbContext.SaveChangesAsync();
                     response.Id = cab.Id;
                     response.UserId = request.UserId;
@@ -109,6 +113,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     response.IsApproved = request.IsApproved;
                     response.PickUpLocation = request.PickUpLocation;
                     response.DropLocation = request.DropLocation;
+                    response.IsAdhoc = request.IsAdhoc;
 
                 }
                 else
@@ -124,28 +129,87 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
 
             }
         }
-        public async Task<CabRequirementRequestResponse> GetCabById(int Id)
+        public async Task<List<CabRequirementRequestResponse>> GetCabById(int? Id,int? UserId,int? RoleId)
         {
-            var response = new CabRequirementRequestResponse();
+            User users;
+
             try
             {
-                var res = await appDbContext.CabRequirementRequests.FirstOrDefaultAsync(e => e.Id == Id);
-                if (res != null)
+                if(RoleId == 1 && UserId == null)
                 {
-                    response.Id = res.Id;
-                    response.UserId = res.UserId;
-                    response.TimeSlotId = res.TimeSlotId;
-                    response.RequestDate = (DateTime)res.RequestDate;
-                    response.IsApproved = res.IsApproved;
-                    response.PickUpLocation = res.PickUpLocation;
-                    response.DropLocation = res.DropLocation;
+                    return await appDbContext.CabRequirementRequests.Select(x => new CabRequirementRequestResponse
+                    {
+                        Id = x.Id,
+                        UserId = x.UserId,
+                        TimeSlotId = x.TimeSlotId,
+                        RequestDate = (DateTime)x.RequestDate,
+                        IsApproved = x.IsApproved,
+                        PickUpLocation = x.PickUpLocation,
+                        DropLocation = x.DropLocation,
+                        IsAdhoc = x.IsAdhoc,
+                    }).ToListAsync();
+                    
 
+                }
+                else if (UserId != null )
+                {
+                    return await appDbContext.CabRequirementRequests.Select(x => new CabRequirementRequestResponse
+                    {
+                        Id = x.Id,
+                        UserId = x.UserId,
+                        TimeSlotId = x.TimeSlotId,
+                        RequestDate = (DateTime)x.RequestDate,
+                        IsApproved = x.IsApproved,
+                        PickUpLocation = x.PickUpLocation,
+                        DropLocation = x.DropLocation,
+                        IsAdhoc = x.IsAdhoc,
+                    }).Where(x => x.UserId.ToString().Contains(UserId.ToString())).ToListAsync();
+                }
+
+                else if( Id != null )
+                {
+                    var response = new CabRequirementRequestResponse();
+                    var cab = await appDbContext.CabRequirementRequests.FindAsync(Id);
+                    return await appDbContext.CabRequirementRequests.Select(x => new CabRequirementRequestResponse
+                    {
+                        Id = x.Id,
+                        UserId = x.UserId,
+                        TimeSlotId = x.TimeSlotId,
+                        RequestDate = (DateTime)x.RequestDate,
+                        IsApproved = x.IsApproved,
+                        PickUpLocation = x.PickUpLocation,
+                        DropLocation = x.DropLocation,
+                        IsAdhoc = x.IsAdhoc,
+                    }).Where(x => x.Id == Id).ToListAsync();
+
+
+                }
+                else if (RoleId != 1)
+                {
+                    var user = await appDbContext.Users.FirstOrDefaultAsync(x => x.RoleId == RoleId);
+                    var userId = user.Id;
+                    return await appDbContext.CabRequirementRequests.Select(x => new CabRequirementRequestResponse
+                    {
+                        Id = x.Id,
+                        UserId = x.UserId,
+                        TimeSlotId = x.TimeSlotId,
+                        RequestDate = (DateTime)x.RequestDate,
+                        IsApproved = x.IsApproved,
+                        PickUpLocation = x.PickUpLocation,
+                        DropLocation = x.DropLocation,
+                        IsAdhoc = x.IsAdhoc,
+                    }).Where(x => x.UserId.ToString().Contains(userId.ToString())).ToListAsync();
                 }
                 else
                 {
                     return null;
                 }
-                return response;
+
+
+
+
+
+
             }
             catch (Exception ex)
             {
@@ -172,6 +236,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     response.IsApproved = res.IsApproved;
                     response.PickUpLocation = res.PickUpLocation;
                     response.DropLocation = res.DropLocation;
+                    response.IsAdhoc = res.IsAdhoc;
 
 
                     appDbContext.CabRequirementRequests.Remove(res);
