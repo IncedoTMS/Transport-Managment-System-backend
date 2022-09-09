@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -63,7 +64,25 @@ namespace TransportManagmentSystemBackend.Api
                 options =>
                 {
                     options.EnableAnnotations();
-
+                    var securityScheme = new OpenApiSecurityScheme
+                    {
+                        Name = "JWT Authentication",
+                        Description = "Enter JWT Bearer Token",
+                        In = ParameterLocation.Header,
+                        Type = SecuritySchemeType.Http,
+                        Scheme = "bearer",
+                        BearerFormat = "JWT",
+                        Reference = new OpenApiReference
+                        {
+                            Id = JwtBearerDefaults.AuthenticationScheme,
+                            Type = ReferenceType.SecurityScheme
+                        }
+                    };
+                    options.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
+                    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                    {
+                        {securityScheme, new string[] { } }
+                    });
                     IApiVersionDescriptionProvider provider =
                         services.BuildServiceProvider().GetRequiredService<IApiVersionDescriptionProvider>();
 
@@ -77,6 +96,7 @@ namespace TransportManagmentSystemBackend.Api
                     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFile));
                     options.CustomOperationIds(e => $"{e.ActionDescriptor.RouteValues["controller"]}_{e.ActionDescriptor.RouteValues["action"]}");
 
+                    
                 });
 
             return services;

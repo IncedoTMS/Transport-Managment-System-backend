@@ -41,6 +41,7 @@ namespace TransportManagmentSystemBackend.Api.Controllers
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status500InternalServerError)]
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<UserResponse>> PostAsync([FromBody] UserRequest request)
         {
@@ -84,6 +85,7 @@ namespace TransportManagmentSystemBackend.Api.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<ActionResult<UserResponse>> PutAsync(int id, UserRequest request)
         {
             Logger.Info($"UserController.PutAsync method called.");
@@ -106,6 +108,7 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             }
         }
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<UserResponse>> GetAsync()
         {
             Logger.Info($"UserController.GetAsync method called.");
@@ -121,6 +124,7 @@ namespace TransportManagmentSystemBackend.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<UserResponse>> DeleteAsync(int id)
         {
             Logger.Info($"UserController.DeleteAsync method called.");
@@ -147,6 +151,7 @@ namespace TransportManagmentSystemBackend.Api.Controllers
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status500InternalServerError)]
         [HttpGet]
+        [Authorize]
         [Route("(EmpCode,Name,Email)")]
         public async Task<ActionResult<UserResponse>> GetUserAsync(int? EmpCode, string Name, string Email)
         {
