@@ -16,6 +16,7 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Entities
         public bool? IsDeleted { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
+        public bool? IsAdhoc { get; set; }
 
         public virtual CabRequirementSlot TimeSlot { get; set; }
         public virtual User User { get; set; }

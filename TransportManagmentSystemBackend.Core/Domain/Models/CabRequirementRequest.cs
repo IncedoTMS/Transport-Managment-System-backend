@@ -14,5 +14,6 @@ namespace TransportManagmentSystemBackend.Core.Domain.Models
         public bool? IsApproved { get; set; }
         public string PickUpLocation { get; set; }
         public string DropLocation { get; set; }
+        public bool? IsAdhoc { get; set; }
     }
 }

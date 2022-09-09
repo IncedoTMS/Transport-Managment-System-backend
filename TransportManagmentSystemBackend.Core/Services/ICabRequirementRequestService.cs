@@ -15,7 +15,7 @@ namespace TransportManagmentSystemBackend.Core.Services
         Task<CabRequirementRequestResponse> Add(CabRequirementRequest request);
         Task<List<CabRequirementRequestResponse>> GetAll();
         Task<CabRequirementRequestResponse> Update(CabRequirementRequest request,int Id);
-        Task<IQueryable<CabRequirementRequestResponse>> GetCabRequest(int? Id,int? UserId,int? RoleId);
+        Task<List<CabRequirementRequestResponse>> GetCabRequest(int? Id,int? UserId,int? RoleId);
         Task<bool> UpdatePatch(JsonPatchDocument request, int Id);
         
         Task<bool> DeleteCab(int id);

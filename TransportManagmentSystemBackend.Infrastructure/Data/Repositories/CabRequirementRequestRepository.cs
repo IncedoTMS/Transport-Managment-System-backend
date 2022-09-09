@@ -43,6 +43,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     DropLocation = request.DropLocation,
                     IsDeleted = false,
                     CreatedBy = "SystemUser",
+                    IsAdhoc = request.IsAdhoc,
                     CreatedDate = DateTime.Now
                 }); ;
 
@@ -55,6 +56,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 response.IsApproved = request.IsApproved;
                 response.PickUpLocation = request.PickUpLocation;
                 response.DropLocation = request.DropLocation;
+                response.IsAdhoc = request.IsAdhoc;
                 return response;
             }
             catch (Exception ex)
@@ -76,6 +78,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     IsApproved = x.IsApproved,
                     PickUpLocation = x.PickUpLocation,
                     DropLocation = x.DropLocation,
+                    IsAdhoc = x.IsAdhoc,
                 }).ToListAsync();
 
             }
@@ -101,6 +104,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     cab.IsApproved = request.IsApproved;
                     cab.PickUpLocation = request.PickUpLocation;
                     cab.DropLocation = request.DropLocation;
+                    cab.IsAdhoc = request.IsAdhoc;
                     await appDbContext.SaveChangesAsync();
                     response.Id = cab.Id;
                     response.UserId = request.UserId;
@@ -109,6 +113,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     response.IsApproved = request.IsApproved;
                     response.PickUpLocation = request.PickUpLocation;
                     response.DropLocation = request.DropLocation;
+                    response.IsAdhoc = request.IsAdhoc;
 
                 }
                 else
@@ -124,36 +129,87 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
 
             }
         }
-        public async Task<IQueryable<CabRequirementRequestResponse>> GetCabById(int? Id,int? UserId,int? RoleId)
+        public async Task<List<CabRequirementRequestResponse>> GetCabById(int? Id,int? UserId,int? RoleId)
         {
+            User users;
 
             try
             {
-                
-                if (Id != null)
+                if(RoleId == 1 && UserId == null)
                 {
-                    IQueryable<CabRequirementRequestResponse> cab = (IQueryable<CabRequirementRequestResponse>)appDbContext.CabRequirementRequests.Where(x =>x.Id == Id  );
-                    return  cab;
+                    return await appDbContext.CabRequirementRequests.Select(x => new CabRequirementRequestResponse
+                    {
+                        Id = x.Id,
+                        UserId = x.UserId,
+                        TimeSlotId = x.TimeSlotId,
+                        RequestDate = (DateTime)x.RequestDate,
+                        IsApproved = x.IsApproved,
+                        PickUpLocation = x.PickUpLocation,
+                        DropLocation = x.DropLocation,
+                        IsAdhoc = x.IsAdhoc,
+                    }).ToListAsync();
+                    
+
                 }
-                else if (UserId != null|| RoleId!=1)
+                else if (UserId != null )
                 {
-                    IQueryable<CabRequirementRequestResponse> cab = (IQueryable<CabRequirementRequestResponse>)appDbContext.CabRequirementRequests.Where(x => x.UserId == UserId);
-                    return cab;
+                    return await appDbContext.CabRequirementRequests.Select(x => new CabRequirementRequestResponse
+                    {
+                        Id = x.Id,
+                        UserId = x.UserId,
+                        TimeSlotId = x.TimeSlotId,
+                        RequestDate = (DateTime)x.RequestDate,
+                        IsApproved = x.IsApproved,
+                        PickUpLocation = x.PickUpLocation,
+                        DropLocation = x.DropLocation,
+                        IsAdhoc = x.IsAdhoc,
+                    }).Where(x => x.UserId.ToString().Contains(UserId.ToString())).ToListAsync();
                 }
-                else if (RoleId == 1)
+
+                else if( Id != null )
                 {
-                    IQueryable<CabRequirementRequestResponse> cab = (IQueryable<CabRequirementRequestResponse>)appDbContext.CabRequirementRequests;
-                   return cab;
+                    var response = new CabRequirementRequestResponse();
+                    var cab = await appDbContext.CabRequirementRequests.FindAsync(Id);
+                    return await appDbContext.CabRequirementRequests.Select(x => new CabRequirementRequestResponse
+                    {
+                        Id = x.Id,
+                        UserId = x.UserId,
+                        TimeSlotId = x.TimeSlotId,
+                        RequestDate = (DateTime)x.RequestDate,
+                        IsApproved = x.IsApproved,
+                        PickUpLocation = x.PickUpLocation,
+                        DropLocation = x.DropLocation,
+                        IsAdhoc = x.IsAdhoc,
+                    }).Where(x => x.Id == Id).ToListAsync();
+
+
+                }
+                else if (RoleId != 1)
+                {
+                    var user = await appDbContext.Users.FirstOrDefaultAsync(x => x.RoleId == RoleId);
+                    var userId = user.Id;
+                    return await appDbContext.CabRequirementRequests.Select(x => new CabRequirementRequestResponse
+                    {
+                        Id = x.Id,
+                        UserId = x.UserId,
+                        TimeSlotId = x.TimeSlotId,
+                        RequestDate = (DateTime)x.RequestDate,
+                        IsApproved = x.IsApproved,
+                        PickUpLocation = x.PickUpLocation,
+                        DropLocation = x.DropLocation,
+                        IsAdhoc = x.IsAdhoc,
+                    }).Where(x => x.UserId.ToString().Contains(userId.ToString())).ToListAsync();
                 }
                 else
                 {
                     return null;
                 }
 
-                    
 
-                
-                
+
+
+
+
             }
             catch (Exception ex)
             {
@@ -180,6 +236,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     response.IsApproved = res.IsApproved;
                     response.PickUpLocation = res.PickUpLocation;
                     response.DropLocation = res.DropLocation;
+                    response.IsAdhoc = res.IsAdhoc;
 
 
                     appDbContext.CabRequirementRequests.Remove(res);
