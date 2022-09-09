@@ -194,6 +194,65 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
 
             }
         }
+
+        public async Task<List<UserResponse>> GetUsersData(int? EmpCode, string Name, string Email)
+        {
+            try
+            {
+                if (EmpCode != null)
+                {
+                    return await appDbContext.Users.Select(x => new UserResponse
+                    {
+                        Id = x.Id,
+                        FirstName = x.FirstName,
+                        LastName = x.LastName,
+                        EmpCode = x.EmpCode,
+                        Email = x.Email,
+                        Phone = x.Phone,
+                        RoleId = x.RoleId,
+                        AddressId = x.AddressId,
+                    }).Where(x => x.EmpCode.ToString().Contains(EmpCode.ToString())).ToListAsync();
+                }
+                else if (Name != null)
+                {
+                    return await appDbContext.Users.Select(x => new UserResponse
+                    {
+                        Id = x.Id,
+                        FirstName = x.FirstName,
+                        LastName = x.LastName,
+                        EmpCode = x.EmpCode,
+                        Email = x.Email,
+                        Phone = x.Phone,
+                        RoleId = x.RoleId,
+                        AddressId = x.AddressId,
+                    }).Where(x => (x.FirstName + " " + x.LastName).Contains(Name)).ToListAsync();
+                }
+                else if (Email != null)
+                {
+                    return await appDbContext.Users.Select(x => new UserResponse
+                    {
+                        Id = x.Id,
+                        FirstName = x.FirstName,
+                        LastName = x.LastName,
+                        EmpCode = x.EmpCode,
+                        Email = x.Email,
+                        Phone = x.Phone,
+                        RoleId = x.RoleId,
+                        AddressId = x.AddressId,
+                    }).Where(x => x.Email.Contains(Email)).ToListAsync();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception occurs in GetAllUsers For User is {ex.Message}");
+                throw new Exception(ex.Message);
+            }
+        }
+
         public string Encryptword(string Encryptval)
         {
             byte[] SrctArray;
