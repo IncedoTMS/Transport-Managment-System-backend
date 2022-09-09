@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -31,6 +32,7 @@ namespace TransportManagmentSystemBackend.Api.Controllers
         [ProducesResponseType(typeof(CabRequirementRequestResponse), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(CabRequirementRequestResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(CabRequirementRequestResponse), StatusCodes.Status500InternalServerError)]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<CabRequirementRequestResponse>> PostAsync([FromBody] Core.Domain.Models.CabRequirementRequest requirmentRequest)
         {
@@ -51,6 +53,7 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             }
         }
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<CabRequirementRequestResponse>> GetAsync()
         {
             try
@@ -65,6 +68,7 @@ namespace TransportManagmentSystemBackend.Api.Controllers
 
         }
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<CabRequirementRequestResponse>> Put([FromBody] Core.Domain.Models.CabRequirementRequest requirmentRequest, int id)
         {
             Logger.Info($"CabRequirmentController.PutAsync method called.");
@@ -90,6 +94,7 @@ namespace TransportManagmentSystemBackend.Api.Controllers
 
         [HttpGet]
         [Route("(Id,UserId,RoleID)")]
+        [Authorize(Roles = "Admin, User")]
         public async Task<ActionResult<CabRequirementRequestResponse>> GetCAsync(int? Id,int? UserID,int? RoleID)
         {
             try
@@ -108,6 +113,7 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             }
         }
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<bool> DeleteAsync(int id)
         {
             Logger.Info($"CabRequirmentController.DeleteAsync method called.");
@@ -128,6 +134,7 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             }
         }
         [HttpPatch("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<bool>> PatchAsync([FromBody] JsonPatchDocument requirmentRequest,int id) 
         {
             Logger.Info($"CabRequirmentController.PatchAsync method called.");
