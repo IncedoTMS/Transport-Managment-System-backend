@@ -38,7 +38,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
 		public Tokens Authenticate(UserLoginRequest users)
 		{
 			var usersDetail = appDbContext.Users.FirstOrDefault(x => x.Email == users.UserName && x.Password == Encryptword(users.Password));
-			if (users == null)
+			if (usersDetail == null)
 			{
 				return null;
 			}

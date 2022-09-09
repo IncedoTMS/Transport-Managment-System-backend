@@ -9,7 +9,8 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Entities
         public int UserId { get; set; }
         public int TimeSlotId { get; set; }
         public DateTime? RequestDate { get; set; }
-        public bool? IsApproved { get; set; }
+        public int IsApproved { get; set; }
+        public bool? IsAdhoc { get; set; }
         public string ApprovedBy { get; set; }
         public string PickUpLocation { get; set; }
         public string DropLocation { get; set; }
