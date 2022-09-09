@@ -4,6 +4,15 @@
 		<TargetFramework>net6.0</TargetFramework>
 	</PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Contexts\**" />
+    <Compile Remove="Entities\**" />
+    <EmbeddedResource Remove="Contexts\**" />
+    <EmbeddedResource Remove="Entities\**" />
+    <None Remove="Contexts\**" />
+    <None Remove="Entities\**" />
+  </ItemGroup>
+
 	<ItemGroup>
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.8" />
