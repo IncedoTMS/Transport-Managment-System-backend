@@ -111,13 +111,13 @@ namespace TransportManagmentSystemBackend.Api.Controllers
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status500InternalServerError)]
-        [HttpGet]
-        public async Task<ActionResult<UserResponse>> GetAsync(int Id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserResponse>> GetAsync(int id)
         {
             Logger.Info($"UserController.GetAsync method called.");
             try
             {
-                var resp = await userService.GetUserbyId(Id);
+                var resp = await userService.GetUserbyId(id);
                 if (resp.Id < 1)
                 {
                     return NotFound();
