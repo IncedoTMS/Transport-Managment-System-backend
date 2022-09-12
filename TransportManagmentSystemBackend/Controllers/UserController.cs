@@ -155,7 +155,7 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             }
         }
 
-        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<UserResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status404NotFound)]
