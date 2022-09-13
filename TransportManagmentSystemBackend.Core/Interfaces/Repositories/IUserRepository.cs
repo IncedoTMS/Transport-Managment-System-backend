@@ -12,7 +12,7 @@ namespace TransportManagmentSystemBackend.Core.Interfaces.Repositories
     {
         Task<UserResponse> InsertUser(UserRequest request);
         Task<UserResponse> UpdateThisUser(int id, UserRequest request);
-        Task<List<UserResponse>> GetAllUsers();
+        Task<UserResponse> GetUserDatabyId(int Id);
         Task<UserResponse> DeleteThisUser(int id);
         Task<List<UserResponse>> GetUsersData(int? EmpCode, string Name, string Email);
         Task<UserLoginResponse> GetUserDetails(UserLoginRequest request);

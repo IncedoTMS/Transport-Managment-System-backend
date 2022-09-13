@@ -105,13 +105,27 @@ namespace TransportManagmentSystemBackend.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
-        [HttpGet]
-        public async Task<ActionResult<UserResponse>> GetAsync()
+
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status500InternalServerError)]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserResponse>> GetAsync(int id)
         {
             Logger.Info($"UserController.GetAsync method called.");
             try
             {
-                return Ok(await userService.GetUsers());
+                var resp = await userService.GetUserbyId(id);
+                if (resp.Id < 1)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Ok(resp);
+                }
             }
             catch (Exception ex)
             {
@@ -141,7 +155,7 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             }
         }
 
-        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<UserResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status404NotFound)]
@@ -153,12 +167,7 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             Logger.Info($"UserController.GetUserAsync method called.");
             try
             {
-                if (EmpCode == null && Email == null && Name == null)
-                {
-                    return this.BadRequest("No EmpCode, Name, or Email provided for GetUser");
-                }
-                var resp = await userService.GetUsersDetails(EmpCode, Name, Email);
-                return resp.Count == 0 ? NotFound() : Ok(resp);
+                return Ok(await userService.GetUsersDetails(EmpCode, Name, Email));
             }
             catch (Exception ex)
             {

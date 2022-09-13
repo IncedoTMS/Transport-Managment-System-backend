@@ -43,9 +43,9 @@ namespace TransportManagmentSystemBackend.Core.Services
                 return await _repo.UpdateThisUser(id, request);
             }
         }
-        public async Task<List<UserResponse>> GetUsers()
+        public async Task<UserResponse> GetUserbyId(int Id)
         {
-                return await _repo.GetAllUsers();
+                return await _repo.GetUserDatabyId(Id);
         }
 
         public async Task<UserResponse> DeleteUser(int id)

@@ -136,22 +136,25 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<List<UserResponse>> GetAllUsers()
+        public async Task<UserResponse> GetUserDatabyId(int Id)
         {
             try
             {
-                return await appDbContext.Users.Select(x => new UserResponse
+                var users = await appDbContext.Users.FindAsync(Id);
+                var response = new UserResponse();
+                if (users != null)
                 {
-                    Id = x.Id,
-                    FirstName = x.FirstName,
-                    LastName = x.LastName,
-                    EmpCode = x.EmpCode,
-                    Email = x.Email,
-                    Phone = x.Phone,
-                    RoleId = x.RoleId,
-                    AddressId = x.AddressId,
+                    response.Id = users.Id;
+                    response.FirstName = users.FirstName;
+                    response.LastName = users.LastName;
+                    response.EmpCode = users.EmpCode;
+                    response.Email = users.Email;
+                    response.Phone = users.Phone;
+                    response.RoleId = users.RoleId;
+                    response.AddressId = users.AddressId;
+                }
 
-                }).ToListAsync();
+                return response;
             }
             catch (Exception ex)
             {
@@ -243,7 +246,17 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 }
                 else
                 {
-                    return null;
+                    return await appDbContext.Users.Select(x => new UserResponse
+                    {
+                        Id = x.Id,
+                        FirstName = x.FirstName,
+                        LastName = x.LastName,
+                        EmpCode = x.EmpCode,
+                        Email = x.Email,
+                        Phone = x.Phone,
+                        RoleId = x.RoleId,
+                        AddressId = x.AddressId,
+                    }).ToListAsync();
                 }
             }
             catch (Exception ex)
