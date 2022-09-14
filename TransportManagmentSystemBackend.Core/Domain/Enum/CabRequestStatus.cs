@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace TransportManagmentSystemBackend.Core.Domain.Enum
 {
-    public class CabRequestStatus
+    public enum CabRequestStatus
     {
-        public enum CabRequirementRequestStatus
-        {
-            Approved = 1,
-            Rejected = 2,
-            Pending = 3
-        };
-    }
+        Approved = 1,
+        Rejected = 2,
+        Pending = 3
+    };
 }

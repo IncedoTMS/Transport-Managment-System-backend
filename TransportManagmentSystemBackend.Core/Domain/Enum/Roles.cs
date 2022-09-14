@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace TransportManagmentSystemBackend.Core.Domain.Enum
 {
-    public class Roles
+    public enum Role
     {
-        public enum Role
-        {
-            Admin = 1,
-            User = 2
-        };
-    }
+        Admin = 1,
+        User = 2
+    };
 }

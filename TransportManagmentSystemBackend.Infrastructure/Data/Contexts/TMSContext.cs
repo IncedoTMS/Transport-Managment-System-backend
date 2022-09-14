@@ -137,6 +137,10 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
             {
                 entity.ToTable("User");
 
+                entity.Property(e => e.Department)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Email)
                     .HasMaxLength(100)
                     .IsUnicode(false);
@@ -149,12 +153,24 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Manager)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Office)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Password)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Phone)
                     .HasMaxLength(15)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ProjectName)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.Address)

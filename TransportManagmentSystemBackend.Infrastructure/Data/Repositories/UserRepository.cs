@@ -44,6 +44,11 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     Phone = request.Phone,
                     RoleId = request.RoleId,
                     AddressId = request.AddressId,
+                    Department = request.Department,
+                    ProjectId = request.ProjectId,
+                    ProjectName = request.ProjectName,
+                    Manager = request.Manager,
+                    Office = request.Office
                 });
 
                 int id = appDbContext.SaveChanges();
@@ -57,6 +62,11 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 response.Phone = request.Phone;
                 response.RoleId = request.RoleId;
                 response.AddressId = request.AddressId;
+                response.Department = request.Department;
+                response.ProjectId = request.ProjectId;
+                response.ProjectName = request.ProjectName;
+                response.Manager = request.Manager;
+                response.Office = request.Office;
                 return response;
             }
             catch (Exception ex)
@@ -83,6 +93,11 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     user.Phone = request.Phone;
                     user.RoleId = request.RoleId;
                     user.AddressId = request.AddressId;
+                    user.Department = request.Department;
+                    user.ProjectId = request.ProjectId;
+                    user.ProjectName = request.ProjectName;
+                    user.Manager = request.Manager;
+                    user.Office = request.Office;
 
                     await appDbContext.SaveChangesAsync();
 
@@ -94,6 +109,11 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     response.Phone = user.Phone;
                     response.RoleId = user.RoleId;
                     response.AddressId = user.AddressId;
+                    response.Department = user.Department;
+                    response.ProjectId = user.ProjectId;
+                    response.ProjectName = user.ProjectName;
+                    response.Manager = user.Manager;
+                    response.Office = user.Office;
                 }
                 else
                 {
@@ -125,6 +145,11 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     response.Phone = users.Phone;
                     response.RoleId = users.RoleId;
                     response.AddressId = users.AddressId;
+                    response.Department = users.Department;
+                    response.ProjectId = users.ProjectId;
+                    response.ProjectName = users.ProjectName;
+                    response.Manager = users.Manager;
+                    response.Office = users.Office;
                 }
 
                 return response;
@@ -152,6 +177,11 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     response.Phone = users.Phone;
                     response.RoleId = users.RoleId;
                     response.AddressId = users.AddressId;
+                    response.Department = users.Department;
+                    response.ProjectId = users.ProjectId;
+                    response.ProjectName = users.ProjectName;
+                    response.Manager = users.Manager;
+                    response.Office = users.Office;
                 }
 
                 return response;
@@ -179,6 +209,11 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     response.Phone = user.Phone;
                     response.RoleId = user.RoleId;
                     response.AddressId = user.AddressId;
+                    response.Department = user.Department;
+                    response.ProjectId = user.ProjectId;
+                    response.ProjectName = user.ProjectName;
+                    response.Manager = user.Manager;
+                    response.Office = user.Office;
 
                     appDbContext.Users.Remove(user);
 
@@ -214,6 +249,11 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         Phone = x.Phone,
                         RoleId = x.RoleId,
                         AddressId = x.AddressId,
+                        Department = x.Department,
+                        ProjectId = x.ProjectId,
+                        ProjectName = x.ProjectName,
+                        Manager = x.Manager,
+                        Office = x.Office,
                     }).Where(x => x.EmpCode.ToString().Contains(EmpCode.ToString())).ToListAsync();
                 }
                 else if (Name != null)
@@ -228,6 +268,11 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         Phone = x.Phone,
                         RoleId = x.RoleId,
                         AddressId = x.AddressId,
+                        Department = x.Department,
+                        ProjectId = x.ProjectId,
+                        ProjectName = x.ProjectName,
+                        Manager = x.Manager,
+                        Office = x.Office,
                     }).Where(x => (x.FirstName + " " + x.LastName).Contains(Name)).ToListAsync();
                 }
                 else if (Email != null)
@@ -242,6 +287,11 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         Phone = x.Phone,
                         RoleId = x.RoleId,
                         AddressId = x.AddressId,
+                        Department = x.Department,
+                        ProjectId = x.ProjectId,
+                        ProjectName = x.ProjectName,
+                        Manager = x.Manager,
+                        Office = x.Office,
                     }).Where(x => x.Email.Contains(Email)).ToListAsync();
                 }
                 else
@@ -256,6 +306,11 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         Phone = x.Phone,
                         RoleId = x.RoleId,
                         AddressId = x.AddressId,
+                        Department = x.Department,
+                        ProjectId = x.ProjectId,
+                        ProjectName = x.ProjectName,
+                        Manager = x.Manager,
+                        Office = x.Office,
                     }).ToListAsync();
                 }
             }

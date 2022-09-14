@@ -72,6 +72,18 @@ namespace TransportManagmentSystemBackend.Api.Controllers
                 {
                     return this.BadRequest("Password should not be less than 8 character.");
                 }
+                else if (string.IsNullOrEmpty(request.Manager))
+                {
+                    return this.BadRequest("Manager can not be empty.");
+                }
+                else if (string.IsNullOrEmpty(request.Office))
+                {
+                    return this.BadRequest("Office can not be empty.");
+                }
+                else if (string.IsNullOrEmpty(request.Department))
+                {
+                    return this.BadRequest("Department can not be empty.");
+                }
 
                 var resp = await userService.AddUser(request);
                 return resp == null ? NotFound() : Ok(resp);
