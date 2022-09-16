@@ -45,7 +45,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     CreatedBy = "SystemUser",
                     IsAdhoc = request.IsAdhoc,
                     CreatedDate = DateTime.Now
-                }); ;
+                });
 
                 int id = appDbContext.SaveChanges();
 
@@ -69,16 +69,20 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
         {
             try
             {
-                return await appDbContext.CabRequirementRequests.Select(x => new CabRequirementRequestResponse
+                return await appDbContext.CabRequirementRequests.Join(appDbContext.Users, c => c.UserId, u => u.Id, (c, u) => new CabRequirementRequestResponse
                 {
-                    Id = x.Id,
-                    UserId = x.UserId,
-                    TimeSlotId = x.TimeSlotId,
-                    RequestDate = (DateTime)x.RequestDate,
-                    IsApproved = x.IsApproved,
-                    PickUpLocation = x.PickUpLocation,
-                    DropLocation = x.DropLocation,
-                    IsAdhoc = x.IsAdhoc,
+                    Id = c.Id,
+                    UserId = c.UserId,
+                    TimeSlotId = c.TimeSlotId,
+                    RequestDate = (DateTime)c.RequestDate,
+                    IsApproved = c.IsApproved,
+                    PickUpLocation = c.PickUpLocation,
+                    DropLocation = c.DropLocation,
+                    IsAdhoc = c.IsAdhoc,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    EmpCode = u.EmpCode,
+                    Email = u.Email,
                 }).ToListAsync();
 
             }
@@ -131,74 +135,86 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
         }
         public async Task<List<CabRequirementRequestResponse>> GetCabById(int? Id,int? UserId,int? RoleId)
         {
-            User users;
+            
 
             try
             {
                 if(RoleId == 1 && UserId == null)
                 {
-                    return await appDbContext.CabRequirementRequests.Select(x => new CabRequirementRequestResponse
+                    return await appDbContext.CabRequirementRequests.Join(appDbContext.Users, c => c.UserId, u => u.Id, (c, u) => new CabRequirementRequestResponse
                     {
-                        Id = x.Id,
-                        UserId = x.UserId,
-                        TimeSlotId = x.TimeSlotId,
-                        RequestDate = (DateTime)x.RequestDate,
-                        IsApproved = x.IsApproved,
-                        PickUpLocation = x.PickUpLocation,
-                        DropLocation = x.DropLocation,
-                        IsAdhoc = x.IsAdhoc,
+                        Id = c.Id,
+                        UserId = c.UserId,
+                        TimeSlotId = c.TimeSlotId,
+                        RequestDate = (DateTime)c.RequestDate,
+                        IsApproved = c.IsApproved,
+                        PickUpLocation = c.PickUpLocation,
+                        DropLocation = c.DropLocation,
+                        IsAdhoc = c.IsAdhoc,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        EmpCode = u.EmpCode,
+                        Email = u.Email,
                     }).ToListAsync();
                     
 
                 }
                 else if (UserId != null )
                 {
-                    return await appDbContext.CabRequirementRequests.Select(x => new CabRequirementRequestResponse
+                    return await appDbContext.CabRequirementRequests.Join(appDbContext.Users, c => c.UserId, u => u.Id, (c, u) => new CabRequirementRequestResponse
                     {
-                        Id = x.Id,
-                        UserId = x.UserId,
-                        TimeSlotId = x.TimeSlotId,
-                        RequestDate = (DateTime)x.RequestDate,
-                        IsApproved = x.IsApproved,
-                        PickUpLocation = x.PickUpLocation,
-                        DropLocation = x.DropLocation,
-                        IsAdhoc = x.IsAdhoc,
+                        Id = c.Id,
+                        UserId = c.UserId,
+                        TimeSlotId = c.TimeSlotId,
+                        RequestDate = (DateTime)c.RequestDate,
+                        IsApproved = c.IsApproved,
+                        PickUpLocation = c.PickUpLocation,
+                        DropLocation = c.DropLocation,
+                        IsAdhoc = c.IsAdhoc,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        EmpCode = u.EmpCode,
+                        Email = u.Email,
                     }).Where(x => x.UserId.ToString().Contains(UserId.ToString())).ToListAsync();
                 }
 
                 else if( Id != null )
                 {
-                    var response = new CabRequirementRequestResponse();
-                    var cab = await appDbContext.CabRequirementRequests.FindAsync(Id);
-                    return await appDbContext.CabRequirementRequests.Select(x => new CabRequirementRequestResponse
+                    return await appDbContext.CabRequirementRequests.Join(appDbContext.Users, c => c.UserId, u => u.Id, (c, u) => new CabRequirementRequestResponse
                     {
-                        Id = x.Id,
-                        UserId = x.UserId,
-                        TimeSlotId = x.TimeSlotId,
-                        RequestDate = (DateTime)x.RequestDate,
-                        IsApproved = x.IsApproved,
-                        PickUpLocation = x.PickUpLocation,
-                        DropLocation = x.DropLocation,
-                        IsAdhoc = x.IsAdhoc,
+                        Id = c.Id,
+                        UserId = c.UserId,
+                        TimeSlotId = c.TimeSlotId,
+                        RequestDate = (DateTime)c.RequestDate,
+                        IsApproved = c.IsApproved,
+                        PickUpLocation = c.PickUpLocation,
+                        DropLocation = c.DropLocation,
+                        IsAdhoc = c.IsAdhoc,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        EmpCode = u.EmpCode,
+                        Email = u.Email,
                     }).Where(x => x.Id == Id).ToListAsync();
 
 
                 }
                 else if (RoleId != 1)
                 {
-                    var user = await appDbContext.Users.FirstOrDefaultAsync(x => x.RoleId == RoleId);
-                    var userId = user.Id;
-                    return await appDbContext.CabRequirementRequests.Select(x => new CabRequirementRequestResponse
+                    return await appDbContext.CabRequirementRequests.Join(appDbContext.Users, c => c.UserId, u => u.Id, (c, u) => new CabRequirementRequestResponse
                     {
-                        Id = x.Id,
-                        UserId = x.UserId,
-                        TimeSlotId = x.TimeSlotId,
-                        RequestDate = (DateTime)x.RequestDate,
-                        IsApproved = x.IsApproved,
-                        PickUpLocation = x.PickUpLocation,
-                        DropLocation = x.DropLocation,
-                        IsAdhoc = x.IsAdhoc,
-                    }).Where(x => x.UserId.ToString().Contains(userId.ToString())).ToListAsync();
+                        Id = c.Id,
+                        UserId = c.UserId,
+                        TimeSlotId = c.TimeSlotId,
+                        RequestDate = (DateTime)c.RequestDate,
+                        IsApproved = c.IsApproved,
+                        PickUpLocation = c.PickUpLocation,
+                        DropLocation = c.DropLocation,
+                        IsAdhoc = c.IsAdhoc,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        EmpCode = u.EmpCode,
+                        Email = u.Email,
+                    }).Where(x => x.UserId.ToString().Contains(UserId.ToString())).ToListAsync();
                 }
                 else
                 {
