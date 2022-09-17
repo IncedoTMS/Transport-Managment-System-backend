@@ -26,6 +26,11 @@ CREATE TABLE dbo.[User] (
   Phone VARCHAR(15),
   RoleId INT NOT NULL,
   AddressId INT,
+  Department VARCHAR(50),
+  ProjectId INT,
+  ProjectName VARCHAR(100),
+  Manager VARCHAR(100),
+  Office VARCHAR(50),
   CONSTRAINT FK_Role_User FOREIGN KEY (RoleId) REFERENCES Role(Id),
   CONSTRAINT FK_Address_User FOREIGN KEY (AddressId) REFERENCES Address(Id)
 );
