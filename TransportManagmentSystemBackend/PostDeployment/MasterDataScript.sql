@@ -31,6 +31,7 @@ CREATE TABLE dbo.[User] (
   ProjectName VARCHAR(100),
   Manager VARCHAR(100),
   Office VARCHAR(50),
+  AddressDetails VARCHAR(100),
   CONSTRAINT FK_Role_User FOREIGN KEY (RoleId) REFERENCES Role(Id),
   CONSTRAINT FK_Address_User FOREIGN KEY (AddressId) REFERENCES Address(Id)
 );
