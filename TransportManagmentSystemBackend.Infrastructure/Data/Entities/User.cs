@@ -24,6 +24,7 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Entities
         public string ProjectName { get; set; }
         public string Manager { get; set; }
         public string Office { get; set; }
+        public string AddressDetails { get; set; }
         public virtual Address Address { get; set; }
         public virtual Role Role { get; set; }
         public virtual ICollection<CabRequirementRequest> CabRequirementRequests { get; set; }

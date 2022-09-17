@@ -137,6 +137,10 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
             {
                 entity.ToTable("User");
 
+                entity.Property(e => e.AddressDetails)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Department)
                     .HasMaxLength(50)
                     .IsUnicode(false);

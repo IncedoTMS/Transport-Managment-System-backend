@@ -21,5 +21,6 @@ namespace TransportManagmentSystemBackend.Core.Domain.Models
         public string ProjectName { get; set; }
         public string Manager { get; set; }
         public string Office { get; set; }
+        public string AddressDetails { get; set; }
     }
 }
