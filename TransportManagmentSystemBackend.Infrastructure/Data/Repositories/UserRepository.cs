@@ -133,7 +133,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
             try
             {
                 var id = request.UserName;
-                var users = await appDbContext.Users.FirstOrDefaultAsync(x => x.Email == id);
+                var users = await appDbContext.Users.FirstOrDefaultAsync(x => x.Email == id && x.RoleId == request.RoleId);
                 var temp = users;
                 var response = new UserLoginResponse();
                 if (users != null && Encryptword(request.Password) == users.Password)
