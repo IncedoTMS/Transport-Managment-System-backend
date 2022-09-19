@@ -48,7 +48,7 @@ namespace TransportManagmentSystemBackend.Core.Services
                 return await _repo.GetUserDatabyId(Id);
         }
 
-        public async Task<UserResponse> DeleteUser(int id)
+        public async Task<bool> DeleteUser(int id)
         {
             if (id == null)
             {

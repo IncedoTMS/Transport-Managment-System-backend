@@ -31,22 +31,21 @@ namespace TransportManagmentSystemBackend.Core.Services
                 return await _repo.InsertCabRequirmentRequest(request);
             }
         }
+
         public async Task<List<CabRequirementRequestResponse>> GetAll()
         {
-            
-            
             {
                 return await _repo.GetCab();
             }
         }
+
         public async Task<List<CabRequirementRequestResponse>> GetCabRequest(int? Id,int? UserId, int? RoleId)
         {
-
-
             {
                 return await _repo.GetCabById(Id,UserId,RoleId);
             }
         }
+
         public async Task<CabRequirementRequestResponse> Update(CabRequirementRequest request,int Id)
         {
             if (request == null)
@@ -59,6 +58,7 @@ namespace TransportManagmentSystemBackend.Core.Services
                 return await _repo.UpdateCabRequirmentRequest(request,Id);
             }
         }
+
         public async Task<bool> UpdatePatch(JsonPatchDocument request, int Id)
         {
             if (request == null)
@@ -71,6 +71,7 @@ namespace TransportManagmentSystemBackend.Core.Services
                 return await _repo.UpdatePatchCabRequirmentRequest(request, Id);
             }
         }
+
         public async Task<bool> DeleteCab(int id)
         {
             if (id == null)
@@ -83,6 +84,5 @@ namespace TransportManagmentSystemBackend.Core.Services
                 return await _repo.DeleteThisCab(id);
             }
         }
-
     }
 }

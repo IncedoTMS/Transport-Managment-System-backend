@@ -13,6 +13,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using TransportManagementSystemBackend.Infrastructure.Data.Contexts;
+using TransportManagmentSystemBackend.Core.Domain.Enum;
 using TransportManagmentSystemBackend.Core.Domain.Models;
 using TransportManagmentSystemBackend.Core.Interfaces.Repositories;
 using TransportManagmentSystemBackend.Infrastructure.Data.Entities;
@@ -34,30 +35,33 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
 			appDbContext = _context;
 			this.iconfiguration = iconfiguration;
 		}
+
 		public Tokens Authenticate(UserLoginRequest users)
 		{
 			var usersDetail = appDbContext.Users.FirstOrDefault(x => x.Email == users.UserName && x.Password == Encryptword(users.Password) && x.RoleId == users.RoleId);
-			if (users == null)
+			
+			if (usersDetail == null)
 			{
 				return null;
 			}
+
+			int value = usersDetail.RoleId;
+			string RoleOfLogin = Enum.GetName(typeof(Role), value);
 
 			// Else we generate JSON Web Token
 			var tokenHandler = new JwtSecurityTokenHandler();
             var tokenKey = Encoding.UTF8.GetBytes(iconfiguration["JWT:Key"]);
 			var tokenDescriptor = new SecurityTokenDescriptor
 			{
-				Subject = new ClaimsIdentity(new Claim[]
-			  {
-			 new Claim(ClaimTypes.Name, users.UserName)
-			  }),
+				Subject = new ClaimsIdentity(new Claim[] {new Claim(ClaimTypes.Name, users.UserName), new Claim(ClaimTypes.Role, RoleOfLogin)}),
 				Expires = DateTime.UtcNow.AddMinutes(10),
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
 			};
 			var token = tokenHandler.CreateToken(tokenDescriptor);
+			
 			return new Tokens { Token = tokenHandler.WriteToken(token) };
-
 		}
+
 		public string Encryptword(string Encryptval)
 		{
 			byte[] SrctArray;
