@@ -81,6 +81,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
         public async Task<UserResponse> UpdateThisUser(int id, UserRequest request)
         {
             var response = new UserResponse();
+
             try
             {
                 var user = await appDbContext.Users.FindAsync(id);
@@ -140,6 +141,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 var users = await appDbContext.Users.FirstOrDefaultAsync(x => x.Email == id && x.RoleId == request.RoleId);
                 var temp = users;
                 var response = new UserLoginResponse();
+                
                 if (users != null && Encryptword(request.Password) == users.Password)
                 {
                     response.FirstName = users.FirstName;
@@ -172,6 +174,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
             {
                 var users = await appDbContext.Users.FindAsync(Id);
                 var response = new UserResponse();
+                
                 if (users != null)
                 {
                     response.Id = users.Id;
@@ -198,45 +201,27 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<UserResponse> DeleteThisUser(int id)
+        public async Task<bool> DeleteThisUser(int id)
         {
-            var response = new UserResponse();
             try
             {
                 var user = await appDbContext.Users.FindAsync(id);
 
                 if (user != null)
                 {
-                    response.Id = user.Id;
-                    response.FirstName = user.FirstName;
-                    response.LastName = user.LastName;
-                    response.EmpCode = user.EmpCode;
-                    response.Email = user.Email;
-                    response.Phone = user.Phone;
-                    response.RoleId = user.RoleId;
-                    response.AddressId = user.AddressId;
-                    response.Department = user.Department;
-                    response.ProjectId = user.ProjectId;
-                    response.ProjectName = user.ProjectName;
-                    response.Manager = user.Manager;
-                    response.Office = user.Office;
-                    response.AddressDetails = user.AddressDetails;
-
                     appDbContext.Users.Remove(user);
 
                     await appDbContext.SaveChangesAsync();
                 }
                 else
                 {
-                    return null;
+                    return false;
                 }
-
-                return response;
+                return true;
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                return null;
-
+                return false;
             }
         }
 

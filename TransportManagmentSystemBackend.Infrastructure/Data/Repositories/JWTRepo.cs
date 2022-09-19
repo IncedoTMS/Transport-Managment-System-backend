@@ -35,13 +35,16 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
 			appDbContext = _context;
 			this.iconfiguration = iconfiguration;
 		}
+
 		public Tokens Authenticate(UserLoginRequest users)
 		{
 			var usersDetail = appDbContext.Users.FirstOrDefault(x => x.Email == users.UserName && x.Password == Encryptword(users.Password) && x.RoleId == users.RoleId);
+			
 			if (usersDetail == null)
 			{
 				return null;
 			}
+
 			int value = usersDetail.RoleId;
 			string RoleOfLogin = Enum.GetName(typeof(Role), value);
 
@@ -55,9 +58,10 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
 			};
 			var token = tokenHandler.CreateToken(tokenDescriptor);
+			
 			return new Tokens { Token = tokenHandler.WriteToken(token) };
-
 		}
+
 		public string Encryptword(string Encryptval)
 		{
 			byte[] SrctArray;

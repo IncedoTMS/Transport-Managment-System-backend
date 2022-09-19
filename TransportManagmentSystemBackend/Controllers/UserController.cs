@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 using TransportManagmentSystemBackend.Core.Domain.Models;
 using TransportManagmentSystemBackend.Core.Interfaces.Repositories;
 using TransportManagmentSystemBackend.Core.Services;
+using TransportManagmentSystemBackend.Infrastructure.Data.Entities;
 using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace TransportManagmentSystemBackend.Api.Controllers
 {
-
     [ApiController]
     [Route("api/v{version:apiVersion}/user")]
     public class UserController : ControllerBase
@@ -22,7 +22,6 @@ namespace TransportManagmentSystemBackend.Api.Controllers
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IUserService userService;
         private readonly IJWTService _jWTManager;
-
 
         public UserController(IUserService userService, IJWTService jWTManager)
         {
@@ -39,10 +38,11 @@ namespace TransportManagmentSystemBackend.Api.Controllers
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status500InternalServerError)]
-        [Authorize(Roles = "Admin")]
         [HttpPost]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<ActionResult<UserResponse>> PostAsync([FromBody] UserRequest request)
         {
             Logger.Info($"UserController.PostAsync method called.");
@@ -100,8 +100,14 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             }
         }
 
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status500InternalServerError)]
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<ActionResult<UserResponse>> PutAsync(int id, UserRequest request)
         {
             Logger.Info($"UserController.PutAsync method called.");
@@ -127,13 +133,15 @@ namespace TransportManagmentSystemBackend.Api.Controllers
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status500InternalServerError)]
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<ActionResult<UserResponse>> GetAsync(int id)
         {
             Logger.Info($"UserController.GetAsync method called.");
+            
             try
             {
                 var resp = await userService.GetUserbyId(id);
@@ -153,11 +161,18 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             }
         }
 
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status500InternalServerError)]
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<UserResponse>> DeleteAsync(int id)
+        [Authorize(Roles = "Admin, Manager")]
+        public async Task<ActionResult<bool>> DeleteAsync(int id)
         {
             Logger.Info($"UserController.DeleteAsync method called.");
+            
             try
             {
                 if (id == null)
@@ -166,7 +181,7 @@ namespace TransportManagmentSystemBackend.Api.Controllers
                 }
 
                 var resp = await userService.DeleteUser(id);
-                return resp == null ? NotFound() : Ok(resp);
+                return resp == false ? NotFound() : Ok(resp);
             }
             catch (Exception ex)
             {
@@ -176,16 +191,18 @@ namespace TransportManagmentSystemBackend.Api.Controllers
         }
 
         [ProducesResponseType(typeof(List<UserResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(List<UserResponse>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(List<UserResponse>), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(List<UserResponse>), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(List<UserResponse>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(List<UserResponse>), StatusCodes.Status500InternalServerError)]
         [HttpGet]
-        [Authorize(Roles = "Admin, User")]
         [Route("(EmpCode,Name,Email)")]
-        public async Task<ActionResult<UserResponse>> GetUserAsync(int? EmpCode, string Name, string Email)
+        [Authorize(Roles = "Admin, User, Manager")]
+        public async Task<ActionResult<List<UserResponse>>> GetUserAsync(int? EmpCode, string Name, string Email)
         {
             Logger.Info($"UserController.GetUserAsync method called.");
+            
             try
             {
                 return Ok(await userService.GetUsersDetails(EmpCode, Name, Email));
@@ -198,6 +215,11 @@ namespace TransportManagmentSystemBackend.Api.Controllers
         }
 
         [AllowAnonymous]
+        [ProducesResponseType(typeof(Tokens), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Tokens), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Tokens), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Tokens), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Tokens), StatusCodes.Status500InternalServerError)]
         [HttpPost]
         [Route("authenticate")]
         public IActionResult Authentication(UserLoginRequest usersdata)
@@ -212,9 +234,9 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             return Ok(token);
         }
 
+        [AllowAnonymous]
         [ProducesResponseType(typeof(UserLoginResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(UserLoginResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(UserLoginResponse), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(UserLoginResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(UserLoginResponse), StatusCodes.Status500InternalServerError)]
         [HttpPost("login")]

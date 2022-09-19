@@ -95,8 +95,6 @@ namespace TransportManagmentSystemBackend.Api
 
                     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFile));
                     options.CustomOperationIds(e => $"{e.ActionDescriptor.RouteValues["controller"]}_{e.ActionDescriptor.RouteValues["action"]}");
-
-                    
                 });
 
             return services;
