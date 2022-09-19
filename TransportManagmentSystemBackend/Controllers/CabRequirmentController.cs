@@ -30,10 +30,11 @@ namespace TransportManagmentSystemBackend.Api.Controllers
         [ProducesResponseType(typeof(CabRequirementRequestResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(CabRequirementRequestResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(CabRequirementRequestResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(CabRequirementRequestResponse), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(CabRequirementRequestResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(CabRequirementRequestResponse), StatusCodes.Status500InternalServerError)]
-        [Authorize(Roles = "Admin")]
         [HttpPost]
+        [Authorize(Roles = "Admin, User, Manager")]
         public async Task<ActionResult<CabRequirementRequestResponse>> PostAsync([FromBody] Core.Domain.Models.CabRequirementRequest requirmentRequest)
         {
             Logger.Info($"CabRequirmentController.PostAsync method called.");
@@ -41,7 +42,9 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             try
             {
                 if (requirmentRequest == null)
+                {
                     return BadRequest();
+                }
 
                 var createdCabRequirmentRequest = await cabRequirementRequestService.Add(requirmentRequest);
                 return createdCabRequirmentRequest == null ? NotFound() : Ok(createdCabRequirmentRequest);
@@ -52,9 +55,16 @@ namespace TransportManagmentSystemBackend.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        [ProducesResponseType(typeof(List<CabRequirementRequestResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<CabRequirementRequestResponse>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(List<CabRequirementRequestResponse>), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(List<CabRequirementRequestResponse>), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(List<CabRequirementRequestResponse>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(List<CabRequirementRequestResponse>), StatusCodes.Status500InternalServerError)]
         [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<CabRequirementRequestResponse>> GetAsync()
+        [Authorize(Roles = "Admin, Manager")]
+        public async Task<ActionResult<List<CabRequirementRequestResponse>>> GetAsync()
         {
             try
             {
@@ -62,13 +72,18 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                     "Error retrieving data from the database");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
             }
-
         }
+
+        [ProducesResponseType(typeof(CabRequirementRequestResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(CabRequirementRequestResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(CabRequirementRequestResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(CabRequirementRequestResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(CabRequirementRequestResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(CabRequirementRequestResponse), StatusCodes.Status500InternalServerError)]
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, User, Manager")]
         public async Task<ActionResult<CabRequirementRequestResponse>> Put([FromBody] Core.Domain.Models.CabRequirementRequest requirmentRequest, int id)
         {
             Logger.Info($"CabRequirmentController.PutAsync method called.");
@@ -81,7 +96,6 @@ namespace TransportManagmentSystemBackend.Api.Controllers
                     return this.BadRequest(nameof(id));
                 }
 
-
                 var createdCabRequirmentRequest = await cabRequirementRequestService.Update(requirmentRequest, id);
                 return createdCabRequirmentRequest == null ? NotFound() : Ok(createdCabRequirmentRequest);
             }
@@ -92,10 +106,16 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             }
         }
 
+        [ProducesResponseType(typeof(List<CabRequirementRequestResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<CabRequirementRequestResponse>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(List<CabRequirementRequestResponse>), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(List<CabRequirementRequestResponse>), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(List<CabRequirementRequestResponse>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(List<CabRequirementRequestResponse>), StatusCodes.Status500InternalServerError)]
         [HttpGet]
         [Route("(Id,UserId,RoleID)")]
-        [Authorize(Roles = "Admin, User")]
-        public async Task<ActionResult<CabRequirementRequestResponse>> GetCAsync(int? Id,int? UserID,int? RoleID)
+        [Authorize(Roles = "Admin, User, Manager")]
+        public async Task<ActionResult<List<CabRequirementRequestResponse>>> GetCAsync(int? Id,int? UserID,int? RoleID)
         {
             try
             {
@@ -103,18 +123,25 @@ namespace TransportManagmentSystemBackend.Api.Controllers
                 {
                     return this.BadRequest(" ");
                 }
+
                 var resp = await cabRequirementRequestService.GetCabRequest(Id,UserID,RoleID);
                 return resp == null ? NotFound() : Ok(resp);
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error retrieving data from the database");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
             }
         }
+
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status500InternalServerError)]
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<bool> DeleteAsync(int id)
+        [Authorize(Roles = "Admin, Manager")]
+        public async Task<ActionResult<bool>> DeleteAsync(int id)
         {
             Logger.Info($"CabRequirmentController.DeleteAsync method called.");
             try
@@ -133,8 +160,15 @@ namespace TransportManagmentSystemBackend.Api.Controllers
                 return false;
             }
         }
+
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status500InternalServerError)]
         [HttpPatch("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<ActionResult<bool>> PatchAsync([FromBody] JsonPatchDocument requirmentRequest,int id) 
         {
             Logger.Info($"CabRequirmentController.PatchAsync method called.");
@@ -147,9 +181,8 @@ namespace TransportManagmentSystemBackend.Api.Controllers
                     return this.BadRequest(nameof(id));
                 }
 
-
                 var createdCabRequirmentRequest = await cabRequirementRequestService.UpdatePatch(requirmentRequest, id);
-                return createdCabRequirmentRequest == null ? NotFound() : Ok(createdCabRequirmentRequest);
+                return createdCabRequirmentRequest == false ? NotFound() : Ok(createdCabRequirmentRequest);
             }
             catch (Exception ex)
             {
@@ -157,12 +190,5 @@ namespace TransportManagmentSystemBackend.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
-
-
-
-
-
-
-
     }
 }

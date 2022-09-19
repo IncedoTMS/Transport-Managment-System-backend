@@ -33,7 +33,6 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
 
                 appDbContext.CabRequirementRequests.Add(new TransportManagementSystemBackend.Infrastructure.Data.Entities.CabRequirementRequest
                 {
-                    
                     UserId = request.UserId,
                     TimeSlotId = request.TimeSlotId,
                     RequestDate = request.RequestDate,
@@ -57,6 +56,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 response.PickUpLocation = request.PickUpLocation;
                 response.DropLocation = request.DropLocation;
                 response.IsAdhoc = request.IsAdhoc;
+                
                 return response;
             }
             catch (Exception ex)
@@ -65,6 +65,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 throw new Exception(ex.Message);
             }
         }
+
         public async Task<List<CabRequirementRequestResponse>> GetCab()
         {
             try
@@ -84,24 +85,23 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     EmpCode = u.EmpCode,
                     Email = u.Email,
                 }).ToListAsync();
-
             }
             catch (Exception ex)
             {
                 Logger.Error($"Exception occurs in GetRecord For CabRequirmentRequest is {ex.Message}");
                 throw new Exception(ex.Message);
-
             }
         }
+
         public async Task<CabRequirementRequestResponse> UpdateCabRequirmentRequest(Core.Domain.Models.CabRequirementRequest request, int Id)
         {
             var response = new CabRequirementRequestResponse();
+            
             try
             {
                 var cab = await appDbContext.CabRequirementRequests.FindAsync(Id);
                 if (cab != null)
                 {
-                    
                     cab.UserId = request.UserId;
                     cab.TimeSlotId = request.TimeSlotId;
                     cab.RequestDate = request.RequestDate;
@@ -109,7 +109,9 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     cab.PickUpLocation = request.PickUpLocation;
                     cab.DropLocation = request.DropLocation;
                     cab.IsAdhoc = request.IsAdhoc;
+
                     await appDbContext.SaveChangesAsync();
+
                     response.Id = cab.Id;
                     response.UserId = request.UserId;
                     response.TimeSlotId = request.TimeSlotId;
@@ -118,25 +120,23 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     response.PickUpLocation = request.PickUpLocation;
                     response.DropLocation = request.DropLocation;
                     response.IsAdhoc = request.IsAdhoc;
-
                 }
                 else
                 {
                     return null;
                 }
+
                 return response;
             }
             catch (Exception ex)
             {
                 Logger.Error($"Exception occurs in UpdateRecord For CabRequirmentRequest is {ex.Message}");
                 throw new Exception(ex.Message);
-
             }
         }
+
         public async Task<List<CabRequirementRequestResponse>> GetCabById(int? Id,int? UserId,int? RoleId)
         {
-            
-
             try
             {
                 if(RoleId == 1 && UserId == null)
@@ -156,8 +156,6 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         EmpCode = u.EmpCode,
                         Email = u.Email,
                     }).ToListAsync();
-                    
-
                 }
                 else if (UserId != null )
                 {
@@ -177,7 +175,6 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         Email = u.Email,
                     }).Where(x => x.UserId.ToString().Contains(UserId.ToString())).ToListAsync();
                 }
-
                 else if( Id != null )
                 {
                     return await appDbContext.CabRequirementRequests.Join(appDbContext.Users, c => c.UserId, u => u.Id, (c, u) => new CabRequirementRequestResponse
@@ -195,8 +192,6 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         EmpCode = u.EmpCode,
                         Email = u.Email,
                     }).Where(x => x.Id == Id).ToListAsync();
-
-
                 }
                 else if (RoleId != 1)
                 {
@@ -220,41 +215,24 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 {
                     return null;
                 }
-
-
-
-
-
-
             }
             catch (Exception ex)
             {
                 Logger.Error($"Exception occurs in GetRecord For CabRequirmentRequest is {ex.Message}");
                 throw new Exception(ex.Message);
-
             }
-
-
         }
+
         public async Task<bool> DeleteThisCab(int id)
         {
             var response = new CabRequirementRequestResponse();
+            
             try
             {
                 var res = await appDbContext.CabRequirementRequests.FindAsync(id);
 
                 if (res != null)
                 {
-                    response.Id = res.Id;
-                    response.UserId = res.UserId;
-                    response.TimeSlotId = res.TimeSlotId;
-                    response.RequestDate = (DateTime)res.RequestDate;
-                    response.IsApproved = res.IsApproved;
-                    response.PickUpLocation = res.PickUpLocation;
-                    response.DropLocation = res.DropLocation;
-                    response.IsAdhoc = res.IsAdhoc;
-
-
                     appDbContext.CabRequirementRequests.Remove(res);
 
                     await appDbContext.SaveChangesAsync();
@@ -269,43 +247,35 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
             catch (DbUpdateConcurrencyException ex)
             {
                 return false;
-
             }
         }
+        
         public async Task<bool> UpdatePatchCabRequirmentRequest(JsonPatchDocument request, int Id)
         {
             var response = new CabRequirementRequestResponse();
+            
             try
             {
                 var cab = await appDbContext.CabRequirementRequests.FindAsync(Id);
+                
                 if (cab != null)
                 {
+                    request.ApplyTo(cab);
 
-                  request.ApplyTo(cab);
                     await appDbContext.SaveChangesAsync();
                 }
                 else
                 {
                     return false;
                 }
+                
                 return true;
             }
             catch (Exception ex)
             {
                 Logger.Error($"Exception occurs in UpdatePatchRecord For CabRequirmentRequest is {ex.Message}");
                 throw new Exception(ex.Message);
-
             }
         }
-
-
-
     }
 }
-
-
-
-
-            
-        
-        

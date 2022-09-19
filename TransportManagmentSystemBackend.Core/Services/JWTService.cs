@@ -30,7 +30,6 @@ namespace TransportManagmentSystemBackend.Core.Services
             {
                 return _repo.Authenticate(usersdata);
             }
- 
         }
     }
 }

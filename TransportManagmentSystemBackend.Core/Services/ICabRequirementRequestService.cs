@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using TransportManagmentSystemBackend.Core.Domain.Models;
 
-
 namespace TransportManagmentSystemBackend.Core.Services
 {
     public interface ICabRequirementRequestService
@@ -17,8 +16,6 @@ namespace TransportManagmentSystemBackend.Core.Services
         Task<CabRequirementRequestResponse> Update(CabRequirementRequest request,int Id);
         Task<List<CabRequirementRequestResponse>> GetCabRequest(int? Id,int? UserId,int? RoleId);
         Task<bool> UpdatePatch(JsonPatchDocument request, int Id);
-        
         Task<bool> DeleteCab(int id);
-
     }
 }
