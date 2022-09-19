@@ -48,7 +48,8 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     ProjectId = request.ProjectId,
                     ProjectName = request.ProjectName,
                     Manager = request.Manager,
-                    Office = request.Office
+                    Office = request.Office,
+                    AddressDetails = request.AddressDetails
                 });
 
                 int id = appDbContext.SaveChanges();
@@ -67,6 +68,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 response.ProjectName = request.ProjectName;
                 response.Manager = request.Manager;
                 response.Office = request.Office;
+                response.AddressDetails = request.AddressDetails;
                 return response;
             }
             catch (Exception ex)
@@ -98,6 +100,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     user.ProjectName = request.ProjectName;
                     user.Manager = request.Manager;
                     user.Office = request.Office;
+                    user.AddressDetails = request.AddressDetails;
 
                     await appDbContext.SaveChangesAsync();
 
@@ -114,6 +117,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     response.ProjectName = user.ProjectName;
                     response.Manager = user.Manager;
                     response.Office = user.Office;
+                    response.AddressDetails = user.AddressDetails;
                 }
                 else
                 {
@@ -150,6 +154,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     response.ProjectName = users.ProjectName;
                     response.Manager = users.Manager;
                     response.Office = users.Office;
+                    response.AddressDetails = users.AddressDetails;
                 }
 
                 return response;
@@ -182,6 +187,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     response.ProjectName = users.ProjectName;
                     response.Manager = users.Manager;
                     response.Office = users.Office;
+                    response.AddressDetails = users.AddressDetails;
                 }
 
                 return response;
@@ -214,6 +220,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     response.ProjectName = user.ProjectName;
                     response.Manager = user.Manager;
                     response.Office = user.Office;
+                    response.AddressDetails = user.AddressDetails;
 
                     appDbContext.Users.Remove(user);
 
@@ -254,6 +261,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         ProjectName = x.ProjectName,
                         Manager = x.Manager,
                         Office = x.Office,
+                        AddressDetails = x.AddressDetails,
                     }).Where(x => x.EmpCode.ToString().Contains(EmpCode.ToString())).ToListAsync();
                 }
                 else if (Name != null)
@@ -273,6 +281,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         ProjectName = x.ProjectName,
                         Manager = x.Manager,
                         Office = x.Office,
+                        AddressDetails = x.AddressDetails,
                     }).Where(x => (x.FirstName + " " + x.LastName).Contains(Name)).ToListAsync();
                 }
                 else if (Email != null)
@@ -292,6 +301,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         ProjectName = x.ProjectName,
                         Manager = x.Manager,
                         Office = x.Office,
+                        AddressDetails = x.AddressDetails,
                     }).Where(x => x.Email.Contains(Email)).ToListAsync();
                 }
                 else
@@ -311,6 +321,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         ProjectName = x.ProjectName,
                         Manager = x.Manager,
                         Office = x.Office,
+                        AddressDetails = x.AddressDetails,
                     }).ToListAsync();
                 }
             }

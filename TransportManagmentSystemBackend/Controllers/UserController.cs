@@ -85,6 +85,10 @@ namespace TransportManagmentSystemBackend.Api.Controllers
                 {
                     return this.BadRequest("Department can not be empty.");
                 }
+                else if (string.IsNullOrEmpty(request.AddressDetails))
+                {
+                    return this.BadRequest("AddressDetails Field is empty.");
+                }
 
                 var resp = await userService.AddUser(request);
                 return resp == null ? NotFound() : Ok(resp);
