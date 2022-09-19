@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using TransportManagementSystemBackend.Infrastructure.Data.Entities;
 using TransportManagmentSystemBackend.Core.Domain.Models;
 using TransportManagmentSystemBackend.Core.Interfaces.Repositories;
+using TransportManagementSystemBackend.Infrastructure.Data.Contexts;
 using TransportManagmentSystemBackend.Core.Services;
 using TransportManagmentSystemBackend.Infrastructure.Data.Repositories;
 
@@ -20,10 +21,12 @@ namespace TransportManagmentSystemBackend.Api.Controllers
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly ICabRequirementRequestService cabRequirementRequestService;
-
-        public CabRequirmentController(ICabRequirementRequestService cabRequirementRequestService)
+        private readonly TMSContext appDbContext;
+        public CabRequirmentController(TMSContext appDbContext, ICabRequirementRequestService cabRequirementRequestService)
         {
+            this.appDbContext = appDbContext;
             this.cabRequirementRequestService = cabRequirementRequestService ?? throw new ArgumentNullException(nameof(cabRequirementRequestService));
+
         }
 
         [ProducesResponseType(typeof(CabRequirementRequestResponse), StatusCodes.Status200OK)]
@@ -40,6 +43,14 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             {
                 if (requirmentRequest == null)
                     return BadRequest();
+                var slot = await appDbContext.CabRequirementSlots.FindAsync(requirmentRequest.TimeSlotId);
+                TimeSpan a = TimeSpan.FromHours(3);
+                if (slot.Time - DateTime.Now.TimeOfDay <= a)
+                {
+                    return BadRequest();
+
+                }
+
 
                 var createdCabRequirmentRequest = await cabRequirementRequestService.Add(requirmentRequest);
                 return createdCabRequirmentRequest == null ? NotFound() : Ok(createdCabRequirmentRequest);
