@@ -23,7 +23,6 @@ namespace TransportManagmentSystemBackend.Api.Controllers
         private readonly IUserService userService;
         private readonly IJWTService _jWTManager;
 
-
         public UserController(IUserService userService, IJWTService jWTManager)
         {
             this.userService = userService ?? throw new ArgumentNullException(nameof(userService));
@@ -71,10 +70,6 @@ namespace TransportManagmentSystemBackend.Api.Controllers
                 else if (request.Password.Length < 8)
                 {
                     return this.BadRequest("Password should not be less than 8 character.");
-                }
-                else if (string.IsNullOrEmpty(request.Manager))
-                {
-                    return this.BadRequest("Manager can not be empty.");
                 }
                 else if (string.IsNullOrEmpty(request.Office))
                 {
@@ -177,13 +172,13 @@ namespace TransportManagmentSystemBackend.Api.Controllers
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status500InternalServerError)]
         [HttpGet]
-        [Route("(EmpCode,Name,Email)")]
-        public async Task<ActionResult<UserResponse>> GetUserAsync(int? EmpCode, string Name, string Email)
+        [Route("(EmpCode,Name,Email,ManagerId)")]
+        public async Task<ActionResult<UserResponse>> GetUserAsync(int? EmpCode, string Name, string Email, int? ManagerId)
         {
             Logger.Info($"UserController.GetUserAsync method called.");
             try
             {
-                return Ok(await userService.GetUsersDetails(EmpCode, Name, Email));
+                return Ok(await userService.GetUsersDetails(EmpCode, Name, Email, ManagerId));
             }
             catch (Exception ex)
             {
@@ -243,6 +238,27 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             catch (Exception ex)
             {
                 Logger.Error($"Exception occurs in UserController.LoginPostAsync method ={ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [ProducesResponseType(typeof(List<ManagerResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ManagerResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ManagerResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ManagerResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ManagerResponse), StatusCodes.Status500InternalServerError)]
+        [HttpGet]
+        [Route("manager")]
+        public async Task<ActionResult<ManagerResponse>> GetManagerAsync()
+        {
+            Logger.Info($"UserController.GetUserAsync method called.");
+            try
+            {
+                return Ok(await userService.GetManagersDetails());
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception ocuurs in UserController.GetUserAsync method ={ex.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }

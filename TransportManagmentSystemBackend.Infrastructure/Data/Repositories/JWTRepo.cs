@@ -36,27 +36,52 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
 		}
 		public Tokens Authenticate(UserLoginRequest users)
 		{
-			var usersDetail = appDbContext.Users.FirstOrDefault(x => x.Email == users.UserName && x.Password == Encryptword(users.Password) && x.RoleId == users.RoleId);
-			if (users == null)
+			if (users.RoleId != 3)
 			{
-				return null;
+				var usersDetail = appDbContext.Users.FirstOrDefault(x => x.Email == users.UserName && x.Password == Encryptword(users.Password) && x.RoleId == users.RoleId);
+				if (usersDetail == null)
+				{
+					return null;
+				}
+
+				// Else we generate JSON Web Token
+				var tokenHandler = new JwtSecurityTokenHandler();
+				var tokenKey = Encoding.UTF8.GetBytes(iconfiguration["JWT:Key"]);
+				var tokenDescriptor = new SecurityTokenDescriptor
+				{
+					Subject = new ClaimsIdentity(new Claim[]
+				  {
+						new Claim(ClaimTypes.Name, users.UserName)
+				  }),
+					Expires = DateTime.UtcNow.AddMinutes(10),
+					SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
+				};
+				var token = tokenHandler.CreateToken(tokenDescriptor);
+				return new Tokens { Token = tokenHandler.WriteToken(token) };
 			}
-
-			// Else we generate JSON Web Token
-			var tokenHandler = new JwtSecurityTokenHandler();
-            var tokenKey = Encoding.UTF8.GetBytes(iconfiguration["JWT:Key"]);
-			var tokenDescriptor = new SecurityTokenDescriptor
+			else
 			{
-				Subject = new ClaimsIdentity(new Claim[]
-			  {
-			 new Claim(ClaimTypes.Name, users.UserName)
-			  }),
-				Expires = DateTime.UtcNow.AddMinutes(10),
-				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
-			};
-			var token = tokenHandler.CreateToken(tokenDescriptor);
-			return new Tokens { Token = tokenHandler.WriteToken(token) };
+				var managersDetail = appDbContext.Managers.FirstOrDefault(x => x.ManagerEmail == users.UserName && x.Password == Encryptword(users.Password) && users.RoleId == 3);
+				if (managersDetail == null)
+				{
+					return null;
+				}
 
+				// Else we generate JSON Web Token
+				var tokenHandler = new JwtSecurityTokenHandler();
+				var tokenKey = Encoding.UTF8.GetBytes(iconfiguration["JWT:Key"]);
+				var tokenDescriptor = new SecurityTokenDescriptor
+				{
+					Subject = new ClaimsIdentity(new Claim[]
+				  {
+						new Claim(ClaimTypes.Name, users.UserName)
+				  }),
+					Expires = DateTime.UtcNow.AddMinutes(10),
+					SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
+				};
+				var token = tokenHandler.CreateToken(tokenDescriptor);
+				return new Tokens { Token = tokenHandler.WriteToken(token) };
+			}
 		}
 		public string Encryptword(string Encryptval)
 		{

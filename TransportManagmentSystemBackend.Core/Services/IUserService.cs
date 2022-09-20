@@ -13,7 +13,8 @@ namespace TransportManagmentSystemBackend.Core.Services
         Task<UserResponse> UpdateUser(int id, UserRequest request);
         Task<UserResponse> GetUserbyId(int Id);
         Task<UserResponse> DeleteUser(int id);
-        Task<List<UserResponse>> GetUsersDetails(int? EmpCode, string Name, string Email);
+        Task<List<UserResponse>> GetUsersDetails(int? EmpCode, string Name, string Email, int? ManagerId);
         Task<UserLoginResponse> GetUserLogin(UserLoginRequest request);
+        Task<List<ManagerResponse>> GetManagersDetails();
     }
 }

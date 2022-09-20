@@ -83,6 +83,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     LastName = u.LastName,
                     EmpCode = u.EmpCode,
                     Email = u.Email,
+                    ManagerId = u.ManagerId,
                 }).ToListAsync();
 
             }
@@ -133,13 +134,13 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
 
             }
         }
-        public async Task<List<CabRequirementRequestResponse>> GetCabById(int? Id,int? UserId,int? RoleId)
+        public async Task<List<CabRequirementRequestResponse>> GetCabById(int? Id,int? UserId,int? RoleId, int? ManagerId)
         {
             
 
             try
             {
-                if(RoleId == 1 && UserId == null)
+                if(ManagerId != null)
                 {
                     return await appDbContext.CabRequirementRequests.Join(appDbContext.Users, c => c.UserId, u => u.Id, (c, u) => new CabRequirementRequestResponse
                     {
@@ -155,6 +156,26 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         LastName = u.LastName,
                         EmpCode = u.EmpCode,
                         Email = u.Email,
+                        ManagerId = u.ManagerId,
+                    }).Where(x => x.ManagerId == ManagerId).ToListAsync();
+                }
+                else if(RoleId == 1 && UserId == null)
+                {
+                    return await appDbContext.CabRequirementRequests.Join(appDbContext.Users, c => c.UserId, u => u.Id, (c, u) => new CabRequirementRequestResponse
+                    {
+                        Id = c.Id,
+                        UserId = c.UserId,
+                        TimeSlotId = c.TimeSlotId,
+                        RequestDate = (DateTime)c.RequestDate,
+                        IsApproved = c.IsApproved,
+                        PickUpLocation = c.PickUpLocation,
+                        DropLocation = c.DropLocation,
+                        IsAdhoc = c.IsAdhoc,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        EmpCode = u.EmpCode,
+                        Email = u.Email,
+                        ManagerId = u.ManagerId,
                     }).ToListAsync();
                     
 
@@ -175,6 +196,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         LastName = u.LastName,
                         EmpCode = u.EmpCode,
                         Email = u.Email,
+                        ManagerId = u.ManagerId,
                     }).Where(x => x.UserId.ToString().Contains(UserId.ToString())).ToListAsync();
                 }
 
@@ -194,6 +216,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         LastName = u.LastName,
                         EmpCode = u.EmpCode,
                         Email = u.Email,
+                        ManagerId = u.ManagerId,
                     }).Where(x => x.Id == Id).ToListAsync();
 
 
@@ -214,6 +237,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         LastName = u.LastName,
                         EmpCode = u.EmpCode,
                         Email = u.Email,
+                        ManagerId = u.ManagerId,
                     }).Where(x => x.UserId.ToString().Contains(UserId.ToString())).ToListAsync();
                 }
                 else

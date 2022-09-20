@@ -39,12 +39,12 @@ namespace TransportManagmentSystemBackend.Core.Services
                 return await _repo.GetCab();
             }
         }
-        public async Task<List<CabRequirementRequestResponse>> GetCabRequest(int? Id,int? UserId, int? RoleId)
+        public async Task<List<CabRequirementRequestResponse>> GetCabRequest(int? Id,int? UserId, int? RoleId, int? ManagerId)
         {
 
 
             {
-                return await _repo.GetCabById(Id,UserId,RoleId);
+                return await _repo.GetCabById(Id,UserId,RoleId,ManagerId);
             }
         }
         public async Task<CabRequirementRequestResponse> Update(CabRequirementRequest request,int Id)

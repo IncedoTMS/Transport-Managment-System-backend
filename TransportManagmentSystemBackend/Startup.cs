@@ -19,6 +19,9 @@ using System.Threading.Tasks;
 using TransportManagementSystemBackend.Infrastructure.Data.Contexts;
 using TransportManagementSystemBackend.Infrastructure.Data.Entities;
 using TransportManagmentSystemBackend.Api;
+using TransportManagmentSystemBackend.Core.Domain.Models;
+using TransportManagmentSystemBackend.Core.Interfaces.Repositories;
+using TransportManagmentSystemBackend.Infrastructure.Data.Repositories;
 
 namespace TransportManagmentSystemBackend
 {
@@ -56,6 +59,11 @@ namespace TransportManagmentSystemBackend
                 };
             });
 
+            var emailConfig = Configuration
+                .GetSection("EmailConfiguration")
+                .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
+            services.AddScoped<IEmailSender, EmailSender>();
             // Configure Cors.
             services.ConfigureCors();
 

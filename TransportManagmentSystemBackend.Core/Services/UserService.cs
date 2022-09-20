@@ -61,9 +61,9 @@ namespace TransportManagmentSystemBackend.Core.Services
             }
         }
 
-        public async Task<List<UserResponse>> GetUsersDetails(int? EmpCode, string Name, string Email)
+        public async Task<List<UserResponse>> GetUsersDetails(int? EmpCode, string Name, string Email, int? ManagerId)
         {
-            return await _repo.GetUsersData(EmpCode, Name, Email);
+            return await _repo.GetUsersData(EmpCode, Name, Email, ManagerId);
         }
 
         public async Task<UserLoginResponse> GetUserLogin(UserLoginRequest request)
@@ -77,6 +77,10 @@ namespace TransportManagmentSystemBackend.Core.Services
             {
                 return await _repo.GetUserDetails(request);
             }
+        }
+        public async Task<List<ManagerResponse>> GetManagersDetails()
+        {
+            return await _repo.GetManagersData();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace TransportManagmentSystemBackend.Core.Interfaces.Repositories
 
         Task<CabRequirementRequestResponse> InsertCabRequirmentRequest(CabRequirementRequest requirementRequest);
         Task<List<CabRequirementRequestResponse>> GetCab();
-        Task<List<CabRequirementRequestResponse>> GetCabById(int? Id,int? UserId,int? RoleId);
+        Task<List<CabRequirementRequestResponse>> GetCabById(int? Id,int? UserId,int? RoleId, int? ManagerId);
         Task<CabRequirementRequestResponse> UpdateCabRequirmentRequest(CabRequirementRequest requirementRequest,int Id);
         Task<bool> UpdatePatchCabRequirmentRequest(JsonPatchDocument requirementRequest, int Id);
 
