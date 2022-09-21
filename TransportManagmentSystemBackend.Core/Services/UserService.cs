@@ -70,7 +70,7 @@ namespace TransportManagmentSystemBackend.Core.Services
         {
             if (request == null)
             {
-                Logger.Error("UserService.GetUserLogin is called and getting null exception for add user");
+                Logger.Error("UserService.GetUserLogin is called and getting null exception for login user");
                 throw new ArgumentException(nameof(GetUserLogin));
             }
             else
@@ -81,6 +81,18 @@ namespace TransportManagmentSystemBackend.Core.Services
         public async Task<List<ManagerResponse>> GetManagersDetails()
         {
             return await _repo.GetManagersData();
+        }
+        public async Task<ChangePasswordResponse> UpdatePassword(int Id, string Email, int RoleId, string Password)
+        {
+            if (Id == null || RoleId == null || string.IsNullOrEmpty(Password))
+            {
+                Logger.Error("UserService.AddUser is called and getting null exception for edit password");
+                throw new ArgumentException(nameof(UpdateUser));
+            }
+            else
+            {
+                return await _repo.UpdateThisPassword(Id, Email, RoleId, Password);
+            }
         }
     }
 }

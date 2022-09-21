@@ -9,8 +9,8 @@ namespace TransportManagmentSystemBackend.Core.Domain.Models
 {
     public class ManagerResponse
     {
-        public string ManagerName { get; set; }
-        public int ManagerId { get; set; }
-        public string ManagerEmail { get; set; }
+        public string? ManagerName { get; set; }
+        public int? ManagerId { get; set; }
+        public string? ManagerEmail { get; set; }
     }
 }

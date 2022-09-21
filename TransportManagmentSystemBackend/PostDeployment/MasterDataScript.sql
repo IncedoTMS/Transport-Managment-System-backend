@@ -24,10 +24,9 @@ CREATE TABLE Manager (
 );
 
 CREATE TABLE dbo.[User] (
-  Id INT PRIMARY KEY IDENTITY(1, 1),
+  Id INT PRIMARY KEY,
   FirstName VARCHAR(50),
   LastName VARCHAR(50),
-  EmpCode INT NOT NULL,
   Email VARCHAR(100),
   Password VARCHAR(50),
   Phone VARCHAR(15),

@@ -81,7 +81,6 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     IsAdhoc = c.IsAdhoc,
                     FirstName = u.FirstName,
                     LastName = u.LastName,
-                    EmpCode = u.EmpCode,
                     Email = u.Email,
                     ManagerId = u.ManagerId,
                 }).ToListAsync();
@@ -154,7 +153,6 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         IsAdhoc = c.IsAdhoc,
                         FirstName = u.FirstName,
                         LastName = u.LastName,
-                        EmpCode = u.EmpCode,
                         Email = u.Email,
                         ManagerId = u.ManagerId,
                     }).Where(x => x.ManagerId == ManagerId).ToListAsync();
@@ -173,7 +171,6 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         IsAdhoc = c.IsAdhoc,
                         FirstName = u.FirstName,
                         LastName = u.LastName,
-                        EmpCode = u.EmpCode,
                         Email = u.Email,
                         ManagerId = u.ManagerId,
                     }).ToListAsync();
@@ -194,7 +191,6 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         IsAdhoc = c.IsAdhoc,
                         FirstName = u.FirstName,
                         LastName = u.LastName,
-                        EmpCode = u.EmpCode,
                         Email = u.Email,
                         ManagerId = u.ManagerId,
                     }).Where(x => x.UserId.ToString().Contains(UserId.ToString())).ToListAsync();
@@ -214,7 +210,6 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         IsAdhoc = c.IsAdhoc,
                         FirstName = u.FirstName,
                         LastName = u.LastName,
-                        EmpCode = u.EmpCode,
                         Email = u.Email,
                         ManagerId = u.ManagerId,
                     }).Where(x => x.Id == Id).ToListAsync();
@@ -235,7 +230,6 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         IsAdhoc = c.IsAdhoc,
                         FirstName = u.FirstName,
                         LastName = u.LastName,
-                        EmpCode = u.EmpCode,
                         Email = u.Email,
                         ManagerId = u.ManagerId,
                     }).Where(x => x.UserId.ToString().Contains(UserId.ToString())).ToListAsync();

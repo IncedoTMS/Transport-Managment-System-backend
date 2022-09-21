@@ -55,10 +55,6 @@ namespace TransportManagmentSystemBackend.Api.Controllers
                 {
                     return this.BadRequest("Firstname can not be empty.");
                 }
-                else if (request.EmpCode == null)
-                {
-                    return this.BadRequest("EmpCode can not be empty.");
-                }
                 else if (request.Phone.Length != 10)
                 {
                     return this.BadRequest("Phone number should be 10 digit number.");
@@ -83,8 +79,12 @@ namespace TransportManagmentSystemBackend.Api.Controllers
                 {
                     return this.BadRequest("AddressDetails Field is empty.");
                 }
+                else if (!string.IsNullOrEmpty(request.AddressDetails) && !isValidEmail(request.ManagerEmail))
+                {
+                    return this.BadRequest("Please enter valid Manager Email.");
+                }
 
-                var resp = await userService.AddUser(request);
+                    var resp = await userService.AddUser(request);
                 return resp == null ? NotFound() : Ok(resp);
             }
             catch (Exception ex)
@@ -102,7 +102,7 @@ namespace TransportManagmentSystemBackend.Api.Controllers
 
             try
             {
-                if (id == null || request == null)
+                if (request == null)
                 {
                     return this.BadRequest(nameof(id));
                 }
@@ -122,14 +122,14 @@ namespace TransportManagmentSystemBackend.Api.Controllers
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status500InternalServerError)]
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserResponse>> GetAsync(int id)
+        [HttpGet("{Id:int}")]
+        public async Task<ActionResult<UserResponse>> GetAsync(int Id)
         {
             Logger.Info($"UserController.GetAsync method called.");
             try
             {
-                var resp = await userService.GetUserbyId(id);
-                if (resp.Id < 1)
+                var resp = await userService.GetUserbyId(Id);
+                if (resp == null)
                 {
                     return NotFound();
                 }
@@ -151,11 +151,6 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             Logger.Info($"UserController.DeleteAsync method called.");
             try
             {
-                if (id == null)
-                {
-                    return this.BadRequest(nameof(id));
-                }
-
                 var resp = await userService.DeleteUser(id);
                 return resp == null ? NotFound() : Ok(resp);
             }
@@ -251,14 +246,54 @@ namespace TransportManagmentSystemBackend.Api.Controllers
         [Route("manager")]
         public async Task<ActionResult<ManagerResponse>> GetManagerAsync()
         {
-            Logger.Info($"UserController.GetUserAsync method called.");
+            Logger.Info($"UserController.GetManagerAsync method called.");
             try
             {
                 return Ok(await userService.GetManagersDetails());
             }
             catch (Exception ex)
             {
-                Logger.Error($"Exception ocuurs in UserController.GetUserAsync method ={ex.Message}");
+                Logger.Error($"Exception ocuurs in UserController.GetManagerAsync method ={ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [ProducesResponseType(typeof(ChangePasswordResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ChangePasswordResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ChangePasswordResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ChangePasswordResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ChangePasswordResponse), StatusCodes.Status500InternalServerError)]
+        [HttpPut]
+        [Route("password")]
+        public async Task<ActionResult<ChangePasswordResponse>> PutPasswordAsync(int Id, string Email, int RoleId, string Password)
+        {
+            Logger.Info($"UserController.PutPasswordAsync method called.");
+
+            try
+            {
+                if(Id == null)
+                {
+                    return this.BadRequest("EmpCode value is missing.");
+                }
+                else if (RoleId == null)
+                {
+                    return this.BadRequest("RoleId value is missing.");
+                }
+                else if (string.IsNullOrEmpty(Email))
+                {
+                    return this.BadRequest("Email value is missing.");
+                }
+                else if(string.IsNullOrEmpty(Password) || Password.Length < 8)
+                {
+                    return this.BadRequest("Invalid Password");
+                }
+
+                var resp = await userService.UpdatePassword(Id, Email, RoleId, Password);
+                return resp == null ? NotFound() : Ok(resp);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception ocuurs in UserController.PutAsync method ={ex.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }

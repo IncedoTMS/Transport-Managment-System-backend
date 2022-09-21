@@ -60,7 +60,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 {
                     FirstName = request.FirstName,
                     LastName = request.LastName,
-                    EmpCode = request.EmpCode,
+                    Id = request.EmpCode,
                     Email = request.Email,
                     Password = Encryptword(request.Password),
                     Phone = request.Phone,
@@ -76,7 +76,6 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
 
                 int id = appDbContext.SaveChanges();
 
-                response.Id = id;
                 response.FirstName = request.FirstName;
                 response.LastName = request.LastName;
                 response.EmpCode = request.EmpCode;
@@ -131,7 +130,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 {
                     user.FirstName = request.FirstName;
                     user.LastName = request.LastName;
-                    user.EmpCode = request.EmpCode;
+                    user.Id = request.EmpCode;
                     user.Email = request.Email;
                     user.Phone = request.Phone;
                     user.RoleId = request.RoleId;
@@ -145,10 +144,9 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
 
                     await appDbContext.SaveChangesAsync();
 
-                    response.Id = user.Id;
+                    response.EmpCode = user.Id;
                     response.FirstName = user.FirstName;
                     response.LastName = user.LastName;
-                    response.EmpCode = user.EmpCode;
                     response.Email = user.Email;
                     response.Phone = user.Phone;
                     response.RoleId = user.RoleId;
@@ -187,7 +185,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     {
                         response.FirstName = users.FirstName;
                         response.LastName = users.LastName;
-                        response.EmpCode = users.EmpCode;
+                        response.EmpCode = users.Id;
                         response.UserName = users.Email;
                         response.Phone = users.Phone;
                         response.RoleId = users.RoleId;
@@ -209,7 +207,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     if (managers != null && Encryptword(request.Password) == managers.Password)
                     {
                         response.FirstName = managers.ManagerName;
-                        response.ManagerId = managers.Id;
+                        response.EmpCode = managers.Id;
                         response.UserName = managers.ManagerEmail;
                     }
                     return response;
@@ -231,10 +229,9 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 var response = new UserResponse();
                 if (users != null)
                 {
-                    response.Id = users.Id;
+                    response.EmpCode = users.Id;
                     response.FirstName = users.FirstName;
                     response.LastName = users.LastName;
-                    response.EmpCode = users.EmpCode;
                     response.Email = users.Email;
                     response.Phone = users.Phone;
                     response.RoleId = users.RoleId;
@@ -264,10 +261,9 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
 
                 if (user != null)
                 {
-                    response.Id = user.Id;
+                    response.EmpCode = user.Id;
                     response.FirstName = user.FirstName;
                     response.LastName = user.LastName;
-                    response.EmpCode = user.EmpCode;
                     response.Email = user.Email;
                     response.Phone = user.Phone;
                     response.RoleId = user.RoleId;
@@ -305,10 +301,9 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 {
                     return await appDbContext.Users.Select(x => new UserResponse
                     {
-                        Id = x.Id,
+                        EmpCode = x.Id,
                         FirstName = x.FirstName,
                         LastName = x.LastName,
-                        EmpCode = x.EmpCode,
                         Email = x.Email,
                         Phone = x.Phone,
                         RoleId = x.RoleId,
@@ -325,10 +320,9 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 {
                     return await appDbContext.Users.Select(x => new UserResponse
                     {
-                        Id = x.Id,
+                        EmpCode = x.Id,
                         FirstName = x.FirstName,
                         LastName = x.LastName,
-                        EmpCode = x.EmpCode,
                         Email = x.Email,
                         Phone = x.Phone,
                         RoleId = x.RoleId,
@@ -345,10 +339,9 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 {
                     return await appDbContext.Users.Select(x => new UserResponse
                     {
-                        Id = x.Id,
+                        EmpCode = x.Id,
                         FirstName = x.FirstName,
                         LastName = x.LastName,
-                        EmpCode = x.EmpCode,
                         Email = x.Email,
                         Phone = x.Phone,
                         RoleId = x.RoleId,
@@ -365,10 +358,9 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 {
                     return await appDbContext.Users.Select(x => new UserResponse
                     {
-                        Id = x.Id,
+                        EmpCode = x.Id,
                         FirstName = x.FirstName,
                         LastName = x.LastName,
-                        EmpCode = x.EmpCode,
                         Email = x.Email,
                         Phone = x.Phone,
                         RoleId = x.RoleId,
@@ -385,10 +377,9 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 {
                     return await appDbContext.Users.Select(x => new UserResponse
                     {
-                        Id = x.Id,
+                        EmpCode = x.Id,
                         FirstName = x.FirstName,
                         LastName = x.LastName,
-                        EmpCode = x.EmpCode,
                         Email = x.Email,
                         Phone = x.Phone,
                         RoleId = x.RoleId,
@@ -427,7 +418,57 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
             }
         }
 
-        public string Encryptword(string Encryptval)
+        public async Task<ChangePasswordResponse> UpdateThisPassword(int Id, string Email, int RoleId, string Password)
+        {
+            try
+            {
+                var response = new ChangePasswordResponse();
+                if (RoleId == 3)
+                {
+                    var managerdata = await appDbContext.Managers.FindAsync(Id);
+                    if (managerdata != null && managerdata.ManagerEmail == Email)
+                    {
+                        managerdata.Password = Encryptword(Password);
+
+                        await appDbContext.SaveChangesAsync();
+
+                        response.Id = managerdata.Id;
+                        response.Email = managerdata.ManagerEmail;
+                        response.Password = managerdata.Password;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    var userdata = await appDbContext.Users.FindAsync(Id);
+                    if (userdata != null && userdata.Email == Email)
+                    {
+                        userdata.Password = Encryptword(Password);
+
+                        await appDbContext.SaveChangesAsync();
+
+                        response.Id = userdata.Id;
+                        response.Email = userdata.Email;
+                        response.Password = userdata.Password;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                
+                return response;
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return null;
+            }
+        }
+
+            public string Encryptword(string Encryptval)
         {
             byte[] SrctArray;
             byte[] EnctArray = UTF8Encoding.UTF8.GetBytes(Encryptval);
