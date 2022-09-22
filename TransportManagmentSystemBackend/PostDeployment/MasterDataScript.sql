@@ -16,11 +16,19 @@ CREATE TABLE Address (
   IsDeleted BIT DEFAULT 0 NOT NULL
 );
 
+CREATE TABLE Manager (
+  Id INT PRIMARY KEY,
+  ManagerName VARCHAR(100),
+  ManagerEmail VARCHAR(100),
+  Password VARCHAR(50),
+  RoleId INT NOT NULL,
+  CONSTRAINT FK_Role_Manager FOREIGN KEY (RoleId) REFERENCES Role(Id),
+);
+
 CREATE TABLE dbo.[User] (
-  Id INT PRIMARY KEY IDENTITY(1, 1),
+  Id INT PRIMARY KEY,
   FirstName VARCHAR(50),
   LastName VARCHAR(50),
-  EmpCode INT,
   Email VARCHAR(100),
   Password VARCHAR(50),
   Phone VARCHAR(15),
@@ -29,11 +37,12 @@ CREATE TABLE dbo.[User] (
   Department VARCHAR(50),
   ProjectId INT,
   ProjectName VARCHAR(100),
-  Manager VARCHAR(100),
+  ManagerId INT,
   Office VARCHAR(50),
   AddressDetails VARCHAR(100),
   CONSTRAINT FK_Role_User FOREIGN KEY (RoleId) REFERENCES Role(Id),
-  CONSTRAINT FK_Address_User FOREIGN KEY (AddressId) REFERENCES Address(Id)
+  CONSTRAINT FK_Address_User FOREIGN KEY (AddressId) REFERENCES Address(Id),
+  CONSTRAINT FK_Manager_User FOREIGN KEY (ManagerId) REFERENCES Manager(Id)
 );
 
 CREATE TABLE CabRequirementSlot(
@@ -49,7 +58,7 @@ CREATE TABLE CabRequirementRequest (
   UserId INT NOT NULL,
   TimeSlotId INT NOT NULL,
   RequestDate DATETIME,
-  IsApproved INT,
+  IsApproved INT NOT NULL,
   IsAdhoc BIT,
   ApprovedBy VARCHAR(500),
   PickUpLocation VARCHAR(500),

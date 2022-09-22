@@ -89,16 +89,16 @@ namespace TransportManagmentSystemBackend.Api.Controllers
         }
 
         [HttpGet]
-        [Route("(Id,UserId,RoleID)")]
-        public async Task<ActionResult<CabRequirementRequestResponse>> GetCAsync(int? Id,int? UserID,int? RoleID)
+        [Route("(Id,UserId,RoleId,ManagerId)")]
+        public async Task<ActionResult<CabRequirementRequestResponse>> GetCAsync(int? Id,int? UserID,int? RoleId, int? ManagerId)
         {
             try
             {
-                if (Id == null && UserID == null && RoleID == null)
+                if (Id == null && UserID == null && RoleId == null && ManagerId == null)
                 {
                     return this.BadRequest(" ");
                 }
-                var resp = await cabRequirementRequestService.GetCabRequest(Id,UserID,RoleID);
+                var resp = await cabRequirementRequestService.GetCabRequest(Id,UserID,RoleId,ManagerId);
                 return resp == null ? NotFound() : Ok(resp);
             }
             catch (Exception)

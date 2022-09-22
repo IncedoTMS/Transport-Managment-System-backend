@@ -6,8 +6,21 @@ using System.Threading.Tasks;
 
 namespace TransportManagmentSystemBackend.Core.Domain.Models
 {
-    public class UserResponse : UserRequest
+    public class UserResponse
     {
-        public int Id { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public int? EmpCode { get; set; }
+        public string? Email { get; set; }
+        public string? Password { get; set; }
+        public string? Phone { get; set; }
+        public int? RoleId { get; set; }
+        public int? AddressId { get; set; }
+        public string? Department { get; set; }
+        public int? ProjectId { get; set; }
+        public string? ProjectName { get; set; }
+        public int? ManagerId { get; set; }
+        public string? Office { get; set; }
+        public string? AddressDetails { get; set; }
     }
 }

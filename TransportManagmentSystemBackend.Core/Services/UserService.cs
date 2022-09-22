@@ -61,21 +61,44 @@ namespace TransportManagmentSystemBackend.Core.Services
             }
         }
 
-        public async Task<List<UserResponse>> GetUsersDetails(int? EmpCode, string Name, string Email)
+        public async Task<List<UserResponse>> GetUsersDetails(int? EmpCode, string Name, string Email, int? ManagerId)
         {
-            return await _repo.GetUsersData(EmpCode, Name, Email);
+            return await _repo.GetUsersData(EmpCode, Name, Email, ManagerId);
         }
 
         public async Task<UserLoginResponse> GetUserLogin(UserLoginRequest request)
         {
             if (request == null)
             {
-                Logger.Error("UserService.GetUserLogin is called and getting null exception for add user");
+                Logger.Error("UserService.GetUserLogin is called and getting null exception for login user");
                 throw new ArgumentException(nameof(GetUserLogin));
             }
             else
             {
                 return await _repo.GetUserDetails(request);
+            }
+        }
+
+        public async Task<List<ManagerResponse>> GetManagersDetails()
+        {
+            return await _repo.GetManagersData();
+        }
+
+        public async Task<ManagerResponse> GetManagersDetailsbyId(int Id)
+        {
+            return await _repo.GetManagersDatabyId(Id);
+        }
+
+        public async Task<ChangePasswordResponse> UpdatePassword(int Id, string Email, int RoleId, string Password)
+        {
+            if (Id == null || RoleId == null || string.IsNullOrEmpty(Password))
+            {
+                Logger.Error("UserService.AddUser is called and getting null exception for edit password");
+                throw new ArgumentException(nameof(UpdateUser));
+            }
+            else
+            {
+                return await _repo.UpdateThisPassword(Id, Email, RoleId, Password);
             }
         }
     }

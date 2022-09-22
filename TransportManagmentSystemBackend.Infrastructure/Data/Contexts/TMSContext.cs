@@ -20,6 +20,7 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<CabRequirementRequest> CabRequirementRequests { get; set; }
         public virtual DbSet<CabRequirementSlot> CabRequirementSlots { get; set; }
+        public virtual DbSet<Manager> Managers { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
@@ -112,6 +113,31 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
                     .HasDefaultValueSql("(getdate())");
             });
 
+            modelBuilder.Entity<Manager>(entity =>
+            {
+                entity.ToTable("Manager");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.ManagerEmail)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ManagerName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Password)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.Managers)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Role_Manager");
+            });
+
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.ToTable("Role");
@@ -137,6 +163,8 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
             {
                 entity.ToTable("User");
 
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
                 entity.Property(e => e.AddressDetails)
                     .HasMaxLength(100)
                     .IsUnicode(false);
@@ -155,10 +183,6 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
 
                 entity.Property(e => e.LastName)
                     .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Manager)
-                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Office)
@@ -181,6 +205,11 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.AddressId)
                     .HasConstraintName("FK_Address_User");
+
+                entity.HasOne(d => d.Manager)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.ManagerId)
+                    .HasConstraintName("FK_Manager_User");
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Users)
