@@ -43,6 +43,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         Id = (int)request.ManagerId,
                         ManagerEmail = request.ManagerEmail,
                         ManagerName = request.ManagerName,
+                        RoleId = 3,
                         Password = Encryptword(newpass)
                     });
                     string emailmessage = "Hi,\n\nA new manager has been created.\nManager Details\nManager Id: "
@@ -114,6 +115,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         Id = (int)request.ManagerId,
                         ManagerEmail = request.ManagerEmail,
                         ManagerName = request.ManagerName,
+                        RoleId = 3,
                         Password = Encryptword(newpass)
                     });
                     string emailmessage = "Hi,\n\nA new manager has been created.\nManager Details\nManager Id: "
@@ -202,13 +204,14 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                 }
                 else
                 {
-                    var managers = await appDbContext.Managers.FirstOrDefaultAsync(x => x.ManagerEmail == id && request.RoleId == 3);
+                    var managers = await appDbContext.Managers.FirstOrDefaultAsync(x => x.ManagerEmail == id && x.RoleId == request.RoleId);
                     var response = new UserLoginResponse();
                     if (managers != null && Encryptword(request.Password) == managers.Password)
                     {
                         response.FirstName = managers.ManagerName;
                         response.EmpCode = managers.Id;
                         response.UserName = managers.ManagerEmail;
+                        response.RoleId = managers.RoleId;
                     }
                     return response;
                 }
@@ -409,7 +412,30 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                     ManagerEmail = x.ManagerEmail,
                     ManagerId = x.Id,
                     ManagerName = x.ManagerName,
+                    RoleId=x.RoleId,
                 }).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception occurs in GetAllUsers For User is {ex.Message}");
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<ManagerResponse> GetManagersDatabyId(int Id)
+        {
+            try
+            {
+                var managers = await appDbContext.Managers.FindAsync(Id);
+                var response = new ManagerResponse();
+                if (managers != null)
+                {
+                    response.ManagerName = managers.ManagerName;
+                    response.ManagerId = managers.Id;
+                    response.ManagerEmail = managers.ManagerEmail;
+                    response.RoleId = managers.RoleId;
+                }
+                return response;
             }
             catch (Exception ex)
             {
@@ -435,6 +461,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         response.Id = managerdata.Id;
                         response.Email = managerdata.ManagerEmail;
                         response.Password = managerdata.Password;
+                        response.RoleId = managerdata.RoleId;
                     }
                     else
                     {
@@ -453,6 +480,7 @@ namespace TransportManagmentSystemBackend.Infrastructure.Data.Repositories
                         response.Id = userdata.Id;
                         response.Email = userdata.Email;
                         response.Password = userdata.Password;
+                        response.RoleId = userdata.RoleId;
                     }
                     else
                     {

@@ -16,6 +16,7 @@ namespace TransportManagmentSystemBackend.Core.Services
         Task<List<UserResponse>> GetUsersDetails(int? EmpCode, string Name, string Email, int? ManagerId);
         Task<UserLoginResponse> GetUserLogin(UserLoginRequest request);
         Task<List<ManagerResponse>> GetManagersDetails();
+        Task<ManagerResponse> GetManagersDetailsbyId(int Id);
         Task<ChangePasswordResponse> UpdatePassword(int Id, string Email, int RoleId, string Password);
     }
 }

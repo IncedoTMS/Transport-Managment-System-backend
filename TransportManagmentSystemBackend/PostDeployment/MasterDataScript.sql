@@ -20,7 +20,9 @@ CREATE TABLE Manager (
   Id INT PRIMARY KEY,
   ManagerName VARCHAR(100),
   ManagerEmail VARCHAR(100),
-  Password VARCHAR(50)
+  Password VARCHAR(50),
+  RoleId INT NOT NULL,
+  CONSTRAINT FK_Role_Manager FOREIGN KEY (RoleId) REFERENCES Role(Id),
 );
 
 CREATE TABLE dbo.[User] (

@@ -130,6 +130,12 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Contexts
                 entity.Property(e => e.Password)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.Managers)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Role_Manager");
             });
 
             modelBuilder.Entity<Role>(entity =>

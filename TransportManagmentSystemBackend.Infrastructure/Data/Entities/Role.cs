@@ -7,6 +7,7 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Entities
     {
         public Role()
         {
+            Managers = new HashSet<Manager>();
             Users = new HashSet<User>();
         }
 
@@ -16,6 +17,7 @@ namespace TransportManagementSystemBackend.Infrastructure.Data.Entities
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
 
+        public virtual ICollection<Manager> Managers { get; set; }
         public virtual ICollection<User> Users { get; set; }
     }
 }

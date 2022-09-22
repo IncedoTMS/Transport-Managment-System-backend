@@ -78,10 +78,17 @@ namespace TransportManagmentSystemBackend.Core.Services
                 return await _repo.GetUserDetails(request);
             }
         }
+
         public async Task<List<ManagerResponse>> GetManagersDetails()
         {
             return await _repo.GetManagersData();
         }
+
+        public async Task<ManagerResponse> GetManagersDetailsbyId(int Id)
+        {
+            return await _repo.GetManagersDatabyId(Id);
+        }
+
         public async Task<ChangePasswordResponse> UpdatePassword(int Id, string Email, int RoleId, string Password)
         {
             if (Id == null || RoleId == null || string.IsNullOrEmpty(Password))

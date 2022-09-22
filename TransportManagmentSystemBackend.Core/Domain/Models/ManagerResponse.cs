@@ -12,5 +12,6 @@ namespace TransportManagmentSystemBackend.Core.Domain.Models
         public string? ManagerName { get; set; }
         public int? ManagerId { get; set; }
         public string? ManagerEmail { get; set; }
+        public int? RoleId { get; set; }
     }
 }

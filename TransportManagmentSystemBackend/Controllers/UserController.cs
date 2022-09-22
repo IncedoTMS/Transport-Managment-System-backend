@@ -258,6 +258,27 @@ namespace TransportManagmentSystemBackend.Api.Controllers
             }
         }
 
+        [ProducesResponseType(typeof(ManagerResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ManagerResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ManagerResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ManagerResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ManagerResponse), StatusCodes.Status500InternalServerError)]
+        [HttpGet]
+        [Route("manager/{id}")]
+        public async Task<ActionResult<ManagerResponse>> GetManagerbyIdAsync(int id)
+        {
+            Logger.Info($"UserController.GetManagerbyIdAsync method called.");
+            try
+            {
+                return Ok(await userService.GetManagersDetailsbyId(id));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception ocuurs in UserController.GetManagerbyIdAsync method ={ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
         [ProducesResponseType(typeof(ChangePasswordResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ChangePasswordResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ChangePasswordResponse), StatusCodes.Status401Unauthorized)]

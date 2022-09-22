@@ -17,6 +17,7 @@ namespace TransportManagmentSystemBackend.Core.Interfaces.Repositories
         Task<List<UserResponse>> GetUsersData(int? EmpCode, string Name, string Email, int? ManagerId);
         Task<UserLoginResponse> GetUserDetails(UserLoginRequest request);
         Task<List<ManagerResponse>> GetManagersData();
+        Task<ManagerResponse> GetManagersDatabyId(int Id);
         Task<ChangePasswordResponse> UpdateThisPassword(int Id, string Email, int RoleId, string Password);
     }
 }
