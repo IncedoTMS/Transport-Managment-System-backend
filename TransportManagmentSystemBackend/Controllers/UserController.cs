@@ -79,7 +79,7 @@ namespace TransportManagmentSystemBackend.Api.Controllers
                 {
                     return this.BadRequest("AddressDetails Field is empty.");
                 }
-                else if (!string.IsNullOrEmpty(request.AddressDetails) && !isValidEmail(request.ManagerEmail))
+                else if (!string.IsNullOrEmpty(request.ManagerEmail) && !isValidEmail(request.ManagerEmail))
                 {
                     return this.BadRequest("Please enter valid Manager Email.");
                 }

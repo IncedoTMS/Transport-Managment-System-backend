@@ -20,8 +20,8 @@ namespace TransportManagmentSystemBackend.Core.Domain.Models
         public int? ProjectId { get; set; }
         public string ProjectName { get; set; }
         public int? ManagerId { get; set; }
-        public string ManagerName { get; set; }
-        public string ManagerEmail { get; set; }
+        public string? ManagerName { get; set; }
+        public string? ManagerEmail { get; set; }
         public string Office { get; set; }
         public string AddressDetails { get; set; }
     }
